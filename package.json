@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "devedge": "npx @cloudflare/next-on-pages --watch npx wrangler pages dev .vercel/output/static",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -14,9 +15,16 @@
     "@types/react-dom": "18.0.8",
     "eslint": "8.27.0",
     "eslint-config-next": "13.0.3",
-    "next": "13.0.3",
+    "next": "12.3.2",
+    "next-auth": "^4.16.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "4.8.4"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "devDependencies": {
+    "vercel": "^28.4.17"
   }
 }
