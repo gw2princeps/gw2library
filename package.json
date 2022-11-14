@@ -7,16 +7,21 @@
     "devedge": "npx @cloudflare/next-on-pages --watch npx wrangler pages dev .vercel/output/static",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "publishlambda": "cd lambda && zip --symlinks ../lambda.zip * && cd .. && aws lambda update-function-code --function-name mdxToString --zip-file fileb://lambda.zip && rm lambda.zip",
+    "analyze": "ANALYZE=true yarn build"
   },
   "dependencies": {
+    "@blueprintjs/core": "^4.12.0",
+    "@mdx-js/mdx": "^2.1.5",
+    "@mdx-js/react": "^2.1.5",
+    "@next/bundle-analyzer": "^13.0.3",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.8",
     "eslint": "8.27.0",
     "eslint-config-next": "13.0.3",
-    "next": "12.3.2",
-    "next-auth": "4.15.0",
+    "next": "13.0.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "4.8.4"
