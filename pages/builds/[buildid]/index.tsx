@@ -1,11 +1,18 @@
-import { useState, useEffect, Fragment } from "react";
-import * as runtime from "react/jsx-runtime";
-import { useRouter } from "next/router";
-import { MDXProvider } from "@mdx-js/react";
-import Counter from "../../../components/Counter";
-import { Card, Classes } from "@blueprintjs/core";
-import { Skill } from "@discretize/gw2-ui-new";
+import components from "@/components/components";
+import classes from "@/styles/BuildPage.module.css";
+import { Classes } from "@blueprintjs/core";
+import { Profession } from "@discretize/gw2-ui-new";
 import { run as importedRun } from "@mdx-js/mdx";
+import { MDXProvider } from "@mdx-js/react";
+import { GetStaticProps } from "next";
+import { Fragment, useEffect, useState } from "react";
+import * as runtime from "react/jsx-runtime";
+import { Build } from "types/Build";
+import {
+  Character,
+  TextDivider,
+  // @ts-ignore
+} from "@discretize/react-discretize-components";
 
 // For some reason the edge runtime does not allow a top level import for the run function in dev mode only... production works fine with the imported version
 let run: () => Promise<
@@ -24,31 +31,18 @@ export function getStaticPaths() {
   };
 }
 
-const components = {
-  h2: () => <h1>h111111111111111</h1>,
-  Counter: Counter,
-  Skill: Skill,
-};
-
 interface BuildPageProps {
-  code: string;
-  time: number;
+  status: string;
 }
 
-export default function Page({ code, time }: BuildPageProps) {
-  const router = useRouter();
-  const { buildid } = router.query;
-
+export default function Page({ mdx, name, character }: Build & BuildPageProps) {
   const [mdxModule, setMdxModule] = useState();
+  const loading = !mdxModule;
   // @ts-ignore
-  const Content = mdxModule ? mdxModule.default : Fragment;
-
-  console.log("calling " + time);
+  const Content = !loading ? mdxModule.default : Fragment;
 
   useEffect(() => {
-    console.log("calling useEffect");
-
-    if (!code) {
+    if (!mdx) {
       return;
     }
     try {
@@ -56,48 +50,65 @@ export default function Page({ code, time }: BuildPageProps) {
         setMdxModule(
           await (
             await run()
-          )(code, { ...runtime, useMDXComponents: () => components })
+          )(mdx, { ...runtime, useMDXComponents: () => components })
         );
       })();
     } catch (e) {
       console.log(e);
     }
-  }, [code]);
+  }, [mdx]);
 
   return (
     <>
-      Test
-      {buildid}
-      <Card
-        style={{ margin: 16 }}
-        className={mdxModule ? "" : Classes.SKELETON}
+      <h1>
+        <Profession name={character.attributes.profession} disableText /> -{" "}
+        {name}
+      </h1>
+      {character ? <Character {...character} /> : undefined}
+
+      <TextDivider>Description</TextDivider>
+
+      <div
+        className={
+          loading ? `${Classes.SKELETON} ${classes.loadingMdxText}` : ""
+        }
       >
         <MDXProvider components={components}>
           <Content />
         </MDXProvider>
-      </Card>
+      </div>
     </>
   );
 }
 
-export async function getStaticProps() {
-  const f = await fetch(
-    "https://raw.githubusercontent.com/nenadpnc/cl-editor/master/README.md"
-  );
-  const a = await f.text();
-
-  const response = await fetch(
-    "https://odoabl3ikc67h73y3g6vnigvoa0refrc.lambda-url.eu-central-1.on.aws/",
-    {
-      method: "POST",
-      body: `${a} <Counter /> <Skill id={14410} />`,
-      headers: { "content-type": "text/plain" },
-    }
-  );
-  if (response.status !== 200) {
-    return { props: { error: "Error" }, revalidate: 10 };
+export const getStaticProps: GetStaticProps = async (context) => {
+  const buildid = context.params?.buildid;
+  if (!buildid) {
+    return {
+      props: {
+        code: "",
+        time: Date.now(),
+        status: "404",
+      },
+      revalidate: 10,
+    };
   }
-  const json = await response.json();
-  console.log(`Response received in ${json.time}`);
-  return { props: { code: json.code, time: json.time }, revalidate: 10 };
-}
+
+  const buildInfo = await fetch(
+    `${process.env?.HOST}/api/builds/get/${buildid}`
+  );
+  if (buildInfo.status !== 200) {
+    return {
+      props: {
+        code: "",
+        time: Date.now(),
+        status: "500",
+      },
+      revalidate: 10,
+    };
+  }
+
+  const build: Build = await buildInfo.json();
+
+  return { props: { ...build }, revalidate: 10 };
+};

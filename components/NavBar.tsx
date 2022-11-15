@@ -13,6 +13,7 @@ import { useDarkMode } from "usehooks-ts";
 import classes from "@/styles/NavBar.module.css";
 import { Attribute } from "@discretize/gw2-ui-new";
 import React from "react";
+import Link from "next/link";
 
 const NavBar = function NavBar() {
   const { isDarkMode, toggle } = useDarkMode();
@@ -30,7 +31,8 @@ const NavBar = function NavBar() {
     <Navbar className={classes.navbar}>
       <NavbarGroup align={Alignment.LEFT}>
         <NavbarHeading>
-          <Attribute name="Armor" disableText inline /> GW2Library{" "}
+          <Attribute name="Armor" disableText inline />{" "}
+          <Link href="/">GW2Library</Link>{" "}
           <Attribute name="Power" disableText inline />
         </NavbarHeading>
       </NavbarGroup>
@@ -42,7 +44,12 @@ const NavBar = function NavBar() {
           onClick={() => toggle()}
         />
         <NavbarDivider />
-        <Button className={Classes.MINIMAL} icon="log-in" text="Login" />
+        <Link href="/login">
+          <Button className={Classes.MINIMAL} icon="log-in" text="Login" />
+        </Link>
+        <Link href="/add">
+          <Button intent="primary" icon="add" text="Add Build" />
+        </Link>
       </NavbarGroup>
     </Navbar>
   );
