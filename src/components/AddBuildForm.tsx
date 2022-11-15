@@ -10,7 +10,7 @@ const validateCharacter = (character: string) => {
   if (character.length == 0) return true;
   try {
     const char = JSON.parse(character);
-    return char.hasOwnProperty("profession");
+    return char.hasOwnProperty("attributes");
   } catch (e) {
     return false;
   }

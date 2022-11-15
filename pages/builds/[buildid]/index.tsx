@@ -13,6 +13,7 @@ import {
   TextDivider,
   // @ts-ignore
 } from "@discretize/react-discretize-components";
+import getProfessionImage from "src/utils/ProfessionImages";
 
 // For some reason the edge runtime does not allow a top level import for the run function in dev mode only... production works fine with the imported version
 let run: () => Promise<
@@ -58,13 +59,18 @@ export default function Page({ mdx, name, character }: Build & BuildPageProps) {
     }
   }, [mdx]);
 
+  const spec = character.attributes.specialization;
+
   return (
     <section className={classes.root}>
       <h1>
-        <Profession name={character.attributes.profession} disableText /> -{" "}
+        {spec && <Profession name={spec} disableText />}
+        {spec && " "}
         {name}
       </h1>
-      {character ? <Character {...character} /> : undefined}
+      {character ? (
+        <Character {...character} imageElement={getProfessionImage(spec)} />
+      ) : undefined}
 
       <TextDivider>Description</TextDivider>
 

@@ -5,7 +5,7 @@
 .layout {
   flex-direction: row;
   margin: auto;
-  max-width: 1100px;
+  max-width: 1200px;
   min-height: 100vh;
   padding-top: 8px;
 }
