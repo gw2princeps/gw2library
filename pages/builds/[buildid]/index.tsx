@@ -1,6 +1,6 @@
 import components from "@/components/components";
 import classes from "@/styles/BuildPage.module.css";
-import { Classes } from "@blueprintjs/core";
+import { Classes, Switch } from "@blueprintjs/core";
 import { Profession } from "@discretize/gw2-ui-new";
 import { run as importedRun } from "@mdx-js/mdx";
 import { MDXProvider } from "@mdx-js/react";
@@ -69,10 +69,14 @@ export default function Page({ mdx, name, character }: Build & BuildPageProps) {
         {name}
       </h1>
       {character ? (
-        <Character {...character} imageElement={getProfessionImage(spec)} />
+        <Character
+          {...character}
+          imageElement={getProfessionImage(spec)}
+          switchElement={Switch}
+        />
       ) : undefined}
 
-      <TextDivider>Description</TextDivider>
+      <TextDivider className={classes.divider}>Description</TextDivider>
 
       <div
         className={

@@ -16,7 +16,7 @@ import React from "react";
 import Link from "next/link";
 
 const NavBar = function NavBar() {
-  const { isDarkMode, toggle } = useDarkMode();
+  const { isDarkMode, toggle } = useDarkMode(true);
   const [icon, setIcon] = React.useState<IconName>("moon");
 
   React.useEffect(() => {

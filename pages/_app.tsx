@@ -5,6 +5,7 @@ import "@discretize/gw2-ui-new/dist/index.css";
 import "@discretize/react-discretize-components/dist/index.css";
 import "@blueprintjs/core/lib/css/blueprint.css";
 import "@/styles/globals.css";
+import "normalize.css/normalize.css";
 
 import "@discretize/typeface-menomonia";
 import Layout from "@/components/Layout";

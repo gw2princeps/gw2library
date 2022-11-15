@@ -7,7 +7,7 @@
   margin: auto;
   max-width: 1200px;
   min-height: 100vh;
-  padding-top: 8px;
+  padding: 8px;
 }
 :global(.bp4-dark) .wrapper {
   background-color: #404854;
