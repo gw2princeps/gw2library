@@ -24,10 +24,3 @@ a {
     background: black;
   }
 }
-
-:root {
-  --rdc-font-family: Muli;
-  --rdc-font-color: #dddddd;
-  --rdc-character-background-color: #2f343c;
-  --rdc-color-primary: #2d72d2;
-}

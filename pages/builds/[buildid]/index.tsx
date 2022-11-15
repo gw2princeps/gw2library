@@ -59,7 +59,7 @@ export default function Page({ mdx, name, character }: Build & BuildPageProps) {
   }, [mdx]);
 
   return (
-    <>
+    <section className={classes.root}>
       <h1>
         <Profession name={character.attributes.profession} disableText /> -{" "}
         {name}
@@ -77,7 +77,7 @@ export default function Page({ mdx, name, character }: Build & BuildPageProps) {
           <Content />
         </MDXProvider>
       </div>
-    </>
+    </section>
   );
 }
 

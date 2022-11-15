@@ -2,16 +2,16 @@
   min-height: 100vh;
 }
 
-.wrapper {
+.layout {
   flex-direction: row;
   margin: auto;
   max-width: 1100px;
   min-height: 100vh;
   padding-top: 8px;
 }
-.dark {
+:global(.bp4-dark) .wrapper {
   background-color: #404854;
 }
-.light {
+.wrapper {
   background-color: #f6f7f9;
 }
