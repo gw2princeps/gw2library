@@ -1,4 +1,4 @@
-import classes from "../styles/Home.module.css";
+import classes from "@/styles/Home.module.css";
 
 export default function Home() {
   return (

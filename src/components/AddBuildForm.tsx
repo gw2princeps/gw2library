@@ -1,7 +1,7 @@
 import { Button, FormGroup, InputGroup, TextArea } from "@blueprintjs/core";
 import React from "react";
 import classes from "@/styles/AddBuildForm.module.css";
-import { AppToaster } from "utils/toaster";
+import { AppToaster } from "src/utils/toaster";
 
 const validateOptimizerSettings = (settings: string) =>
   settings.length == 0 ||

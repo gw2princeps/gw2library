@@ -7,7 +7,7 @@ import { MDXProvider } from "@mdx-js/react";
 import { GetStaticProps } from "next";
 import { Fragment, useEffect, useState } from "react";
 import * as runtime from "react/jsx-runtime";
-import { Build } from "types/Build";
+import { Build } from "src/types/Build";
 import {
   Character,
   TextDivider,

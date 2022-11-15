@@ -17,7 +17,7 @@ const nextConfig = {
     config.plugins.push(
       new NormalModuleReplacementPlugin(
         /.*\/@blueprintjs\/icons\/lib\/esm\/iconSvgPaths.*/,
-        path.resolve(__dirname, "lib/icons.js")
+        path.resolve(__dirname, "src/lib/icons.js")
       )
     );
 
