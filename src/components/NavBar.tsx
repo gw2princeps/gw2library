@@ -9,15 +9,18 @@ import {
   MaybeElement,
   IconName,
 } from "@blueprintjs/core";
-import { useDarkMode } from "usehooks-ts";
+import { useDarkMode, useWindowSize } from "usehooks-ts";
 import classes from "@/styles/NavBar.module.css";
 import { Attribute } from "@discretize/gw2-ui-new";
 import React from "react";
 import Link from "next/link";
 
 const NavBar = function NavBar() {
-  const { isDarkMode, toggle } = useDarkMode(true);
   const [icon, setIcon] = React.useState<IconName>("moon");
+
+  const { isDarkMode, toggle } = useDarkMode(true);
+  const size = useWindowSize();
+  const minimal = size.width < 420;
 
   React.useEffect(() => {
     if (isDarkMode) {
@@ -29,13 +32,15 @@ const NavBar = function NavBar() {
 
   return (
     <Navbar className={classes.navbar}>
-      <NavbarGroup align={Alignment.LEFT}>
-        <NavbarHeading>
-          <Attribute name="Armor" disableText inline />{" "}
-          <Link href="/">GW2Library</Link>{" "}
-          <Attribute name="Power" disableText inline />
-        </NavbarHeading>
-      </NavbarGroup>
+      {!minimal && (
+        <NavbarGroup align={Alignment.LEFT}>
+          <NavbarHeading>
+            <Attribute name="Armor" disableText inline />{" "}
+            <Link href="/">GW2Library</Link>{" "}
+            <Attribute name="Power" disableText inline />
+          </NavbarHeading>
+        </NavbarGroup>
+      )}
       <NavbarGroup align={Alignment.RIGHT}>
         <Button
           minimal={true}

@@ -6,7 +6,6 @@
   flex-direction: row;
   margin: auto;
   max-width: 1200px;
-  min-height: 100vh;
   padding: 8px;
 }
 :global(.bp4-dark) .wrapper {
