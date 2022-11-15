@@ -6,12 +6,10 @@ import {
   NavbarGroup,
   NavbarHeading,
   Classes,
-  MaybeElement,
   IconName,
 } from "@blueprintjs/core";
 import { useDarkMode, useWindowSize } from "usehooks-ts";
 import classes from "@/styles/NavBar.module.css";
-import { Attribute } from "@discretize/gw2-ui-new";
 import React from "react";
 import Link from "next/link";
 
@@ -35,19 +33,20 @@ const NavBar = function NavBar() {
       {!minimal && (
         <NavbarGroup align={Alignment.LEFT}>
           <NavbarHeading>
-            <Attribute name="Armor" disableText inline />{" "}
-            <Link href="/">GW2Library</Link>{" "}
-            <Attribute name="Power" disableText inline />
+            <Link href="/">GW2Library</Link>
           </NavbarHeading>
         </NavbarGroup>
       )}
       <NavbarGroup align={Alignment.RIGHT}>
-        <Button
-          minimal={true}
-          icon={icon}
-          // @ts-ignore
-          onClick={() => toggle()}
-        />
+        <div>
+          <Button
+            minimal={true}
+            icon={icon}
+            // @ts-ignore
+            onClick={() => toggle()}
+          />
+        </div>
+
         <NavbarDivider />
         <Link href="/login">
           <Button className={Classes.MINIMAL} icon="log-in" text="Login" />

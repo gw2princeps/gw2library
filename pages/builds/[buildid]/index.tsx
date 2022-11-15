@@ -1,6 +1,6 @@
 import components from "@/components/components";
 import classes from "@/styles/BuildPage.module.css";
-import { Classes, Switch } from "@blueprintjs/core";
+import { Classes, H2, Switch } from "@blueprintjs/core";
 import { Profession } from "@discretize/gw2-ui-new";
 import { run as importedRun } from "@mdx-js/mdx";
 import { MDXProvider } from "@mdx-js/react";
@@ -8,12 +8,14 @@ import { GetStaticProps } from "next";
 import { Fragment, useEffect, useState } from "react";
 import * as runtime from "react/jsx-runtime";
 import { Build } from "src/types/Build";
-import {
-  Character,
-  TextDivider,
-  // @ts-ignore
-} from "@discretize/react-discretize-components";
+import { Character } from "@discretize/react-discretize-components";
 import getProfessionImage from "src/utils/ProfessionImages";
+import Traits from "@/components/Traits";
+
+import "@discretize/react-discretize-components/dist/index.css";
+import "@discretize/gw2-ui-new/dist/default_style.css";
+import "@discretize/gw2-ui-new/dist/index.css";
+import "@discretize/typeface-menomonia";
 
 // For some reason the edge runtime does not allow a top level import for the run function in dev mode only... production works fine with the imported version
 let run: () => Promise<
@@ -38,9 +40,10 @@ interface BuildPageProps {
 
 export default function Page({ mdx, name, character }: Build & BuildPageProps) {
   const [mdxModule, setMdxModule] = useState();
-  const loading = !mdxModule;
+  const hasDescription = mdx === undefined || mdx?.length > 0;
+  const loading = !mdxModule && hasDescription;
   // @ts-ignore
-  const Content = !loading ? mdxModule.default : Fragment;
+  const Content = !loading ? mdxModule?.default : Fragment;
 
   useEffect(() => {
     if (!mdx) {
@@ -69,24 +72,36 @@ export default function Page({ mdx, name, character }: Build & BuildPageProps) {
         {name}
       </h1>
       {character ? (
-        <Character
-          {...character}
-          imageElement={getProfessionImage(spec)}
-          switchElement={Switch}
-        />
+        <>
+          <Character
+            {...character}
+            // @ts-ignore
+            imageElement={getProfessionImage(spec)}
+            // @ts-ignore
+            switchElement={Switch}
+          />
+
+          <H2>Traits</H2>
+
+          <Traits traits={character.traits} />
+        </>
       ) : undefined}
 
-      <TextDivider className={classes.divider}>Description</TextDivider>
+      {hasDescription ? (
+        <>
+          <H2 className={classes.divider}>Description</H2>
 
-      <div
-        className={
-          loading ? `${Classes.SKELETON} ${classes.loadingMdxText}` : ""
-        }
-      >
-        <MDXProvider components={components}>
-          <Content />
-        </MDXProvider>
-      </div>
+          <div
+            className={
+              loading ? `${Classes.SKELETON} ${classes.loadingMdxText}` : ""
+            }
+          >
+            <MDXProvider components={components}>
+              <Content />
+            </MDXProvider>
+          </div>
+        </>
+      ) : undefined}
     </section>
   );
 }

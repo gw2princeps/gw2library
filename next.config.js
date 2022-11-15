@@ -12,6 +12,9 @@ const nextConfig = {
   },
   reactStrictMode: true,
   swcMinify: true,
+  images: {
+    formats: ["image/avif", "image/webp"],
+  },
 
   webpack: (config, { buildId, dev, isServer, defaultLoaders }) => {
     config.plugins.push(

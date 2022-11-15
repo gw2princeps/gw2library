@@ -1,0 +1,17 @@
+.linewrapper {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2px;
+  align-items: center;
+}
+.specialization {
+  min-width: 200px;
+  margin: 0;
+}
+@media (max-width: 768px) {
+  .linewrapper {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 4px;
+  }
+}

@@ -5,7 +5,7 @@
 .layout {
   flex-direction: row;
   margin: auto;
-  max-width: 1200px;
+  max-width: 1100px;
   padding: 8px;
 }
 :global(.bp4-dark) .wrapper {
