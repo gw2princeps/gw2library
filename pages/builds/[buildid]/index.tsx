@@ -75,7 +75,7 @@ export default function Page({
   const spec = character.attributes.specialization;
 
   return (
-    <section className={classes.root}>
+    <section className={`buildsection ${classes.root}`}>
       <BuildHeader specialization={spec} timestamp={timestamp} name={name} />
       <TopBar optimizerLink={optimizerSettingsLink} chatcode={chatcode} />
       {character ? (

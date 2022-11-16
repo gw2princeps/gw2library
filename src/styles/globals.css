@@ -8,7 +8,7 @@ body {
   color: #1c2127;
 }
 
-a {
+.buildsection a {
   color: inherit !important;
   text-decoration: none;
 }
