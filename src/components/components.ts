@@ -36,6 +36,9 @@ const components = {
   ControlEffect,
   Specialization,
   TraitLine,
+  BuildLink: () => null,
+  Effect: () => null,
+  Instability: () => MistlockInstability,
 };
 
 export default components;

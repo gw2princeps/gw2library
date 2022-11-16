@@ -1,4 +1,6 @@
+import { encode } from "gw2e-chat-codes";
 import { NextRequest } from "next/server";
+import { getBuildmeta } from "src/utils/chatcodes";
 
 export default async function addBuild(req: NextRequest) {
   if (req.method !== "POST") {
@@ -10,7 +12,12 @@ export default async function addBuild(req: NextRequest) {
 
   const build = await req.json();
 
-  console.log("Converting build...");
+  let chatcode = encode(
+    "build",
+    await getBuildmeta(JSON.parse(build.character))
+  );
+
+  console.log("Converting build to MDX...");
 
   const response = await fetch(process.env.MDX_CONVERTER_LAMBDA_URL || "", {
     method: "POST",
@@ -23,7 +30,7 @@ export default async function addBuild(req: NextRequest) {
   }
   const json = await response.json();
 
-  console.log("Adding build", { ...build, mdx: json.code });
+  console.log("Adding build", { ...build, mdx: json.code, chatcode });
 
   // lets wait 2 seconds here
   await new Promise((resolve) => setTimeout(resolve, 2000));

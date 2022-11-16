@@ -26,3 +26,7 @@
   box-sizing: border-box;
   min-height: calc(100vh - 58px);
 }
+
+.mb10 {
+  margin-bottom: 10rem;
+}

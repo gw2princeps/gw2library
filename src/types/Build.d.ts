@@ -17,6 +17,10 @@ export interface Traits {
 export interface Character extends React.ComponentProps<typeof Character> {
   attributes: {
     specialization: React.ComponentProps<typeof Profession>["name"];
+    profession: React.ComponentProps<
+      typeof Character
+    >["attributes"]["profession"];
+    data: React.ComponentProps<typeof Character>["attributes"]["data"];
   };
   traits: Traits;
 }
