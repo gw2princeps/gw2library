@@ -30,7 +30,12 @@ export default async function addBuild(req: NextRequest) {
   }
   const json = await response.json();
 
-  console.log("Adding build", { ...build, mdx: json.code, chatcode });
+  console.log("Adding build", {
+    ...build,
+    mdx: json.code,
+    chatcode,
+    timestamp: new Date().toISOString(),
+  });
 
   // lets wait 2 seconds here
   await new Promise((resolve) => setTimeout(resolve, 2000));

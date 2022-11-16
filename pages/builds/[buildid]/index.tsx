@@ -1,7 +1,7 @@
 import components from "@/components/components";
 import Traits from "@/components/Traits";
 import classes from "@/styles/BuildPage.module.css";
-import { Classes, H2, Switch } from "@blueprintjs/core";
+import { Classes, H2, Switch, Tag } from "@blueprintjs/core";
 import { Profession } from "@discretize/gw2-ui-new";
 import { Character } from "@discretize/react-discretize-components";
 import { run as importedRun } from "@mdx-js/mdx";
@@ -17,6 +17,7 @@ import "@discretize/gw2-ui-new/dist/default_style.css";
 import "@discretize/gw2-ui-new/dist/index.css";
 import "@discretize/react-discretize-components/dist/index.css";
 import "@discretize/typeface-menomonia";
+import BuildHeader from "@/components/BuildHeader";
 
 // For some reason the edge runtime does not allow a top level import for the run function in dev mode only... production works fine with the imported version
 let run: () => Promise<
@@ -45,8 +46,10 @@ export default function Page({
   character,
   chatcode,
   optimizerSettingsLink,
+  timestamp,
 }: Build & BuildPageProps) {
   const [mdxModule, setMdxModule] = useState();
+
   const hasDescription = mdx === undefined || mdx?.length > 0;
   const loading = !mdxModule && hasDescription;
   // @ts-ignore
@@ -73,11 +76,7 @@ export default function Page({
 
   return (
     <section className={classes.root}>
-      <h1>
-        {spec && <Profession name={spec} disableText />}
-        {spec && " "}
-        {name}
-      </h1>
+      <BuildHeader specialization={spec} timestamp={timestamp} name={name} />
       <TopBar optimizerLink={optimizerSettingsLink} chatcode={chatcode} />
       {character ? (
         <>

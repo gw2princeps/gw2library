@@ -26,7 +26,7 @@ const TopBar = ({
     setTimeout(() => setCopied(false), 3500);
   };
   return (
-    <ButtonGroup fill large className={classes.buttongroup}>
+    <ButtonGroup large className={classes.buttongroup}>
       {optimizerLink ? (
         <a href={optimizerLink}>
           <Button>

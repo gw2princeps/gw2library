@@ -1,0 +1,10 @@
+.root {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  line-height: 1.5;
+
+  margin-top: 1rem;
+}
