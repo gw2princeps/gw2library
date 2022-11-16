@@ -8,12 +8,14 @@ import {
   Cross,
   Clipboard,
   Tick,
+  Error,
 } from "@blueprintjs/icons/lib/esm/generated/16px/paths";
 import {
   Home as Home20,
   LogIn as LogIn20,
   Flash as Flash20,
   Moon as Moon20,
+  Error as Error20,
 } from "@blueprintjs/icons/lib/esm/generated/20px/paths";
 import { pascalCase } from "change-case";
 
@@ -31,6 +33,7 @@ export const IconSvgPaths16 = {
   Cross,
   Clipboard,
   Tick,
+  Error,
 };
 
 export const IconSvgPaths20 = {
@@ -38,4 +41,5 @@ export const IconSvgPaths20 = {
   LogIn: LogIn20,
   Flash: Flash20,
   Moon: Moon20,
+  Error: Error20,
 };
