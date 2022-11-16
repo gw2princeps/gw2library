@@ -9,7 +9,7 @@ import { useDarkMode, useIsClient } from "usehooks-ts";
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { isDarkMode } = useDarkMode(true);
   const isClient = useIsClient();
-  const [rootClasses, setRootClasses] = React.useState<string>(classes.light);
+  const [rootClasses, setRootClasses] = React.useState<string>(Classes.DARK);
 
   React.useEffect(() => {
     if (isClient) {
