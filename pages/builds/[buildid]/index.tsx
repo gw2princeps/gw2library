@@ -16,7 +16,7 @@ import "@discretize/react-discretize-components/dist/index.css";
 import "@discretize/gw2-ui-new/dist/default_style.css";
 import "@discretize/gw2-ui-new/dist/index.css";
 import "@discretize/typeface-menomonia";
-import { calcBuildCode } from "src/utils/chatcodes";
+import ChatCode from "@/components/ChatCode";
 
 // For some reason the edge runtime does not allow a top level import for the run function in dev mode only... production works fine with the imported version
 let run: () => Promise<
@@ -39,7 +39,12 @@ interface BuildPageProps {
   status: string;
 }
 
-export default function Page({ mdx, name, character }: Build & BuildPageProps) {
+export default function Page({
+  mdx,
+  name,
+  character,
+  chatcode,
+}: Build & BuildPageProps) {
   const [mdxModule, setMdxModule] = useState();
   const hasDescription = mdx === undefined || mdx?.length > 0;
   const loading = !mdxModule && hasDescription;
@@ -72,6 +77,9 @@ export default function Page({ mdx, name, character }: Build & BuildPageProps) {
         {spec && " "}
         {name}
       </h1>
+
+      {chatcode && <ChatCode code={chatcode} />}
+
       {character ? (
         <>
           <Character

@@ -38,7 +38,7 @@ const components = {
   TraitLine,
   BuildLink: () => null,
   Effect: () => null,
-  Instability: () => MistlockInstability,
+  Instability: MistlockInstability,
 };
 
 export default components;

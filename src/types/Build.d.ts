@@ -7,6 +7,7 @@ export interface Build {
   description: string;
   mdx: string;
   character: Character;
+  chatcode: string;
 }
 
 export interface Traits {

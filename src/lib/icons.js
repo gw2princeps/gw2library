@@ -6,6 +6,8 @@ import {
   Add,
   Upload,
   Cross,
+  Clipboard,
+  Tick,
 } from "@blueprintjs/icons/lib/esm/generated/16px/paths";
 import {
   Home as Home20,
@@ -27,6 +29,8 @@ export const IconSvgPaths16 = {
   Add,
   Upload,
   Cross,
+  Clipboard,
+  Tick,
 };
 
 export const IconSvgPaths20 = {
