@@ -1,22 +1,22 @@
 import components from "@/components/components";
+import Traits from "@/components/Traits";
 import classes from "@/styles/BuildPage.module.css";
 import { Classes, H2, Switch } from "@blueprintjs/core";
 import { Profession } from "@discretize/gw2-ui-new";
+import { Character } from "@discretize/react-discretize-components";
 import { run as importedRun } from "@mdx-js/mdx";
 import { MDXProvider } from "@mdx-js/react";
 import { GetStaticProps } from "next";
 import { Fragment, useEffect, useState } from "react";
 import * as runtime from "react/jsx-runtime";
 import { Build } from "src/types/Build";
-import { Character } from "@discretize/react-discretize-components";
 import getProfessionImage from "src/utils/ProfessionImages";
-import Traits from "@/components/Traits";
 
-import "@discretize/react-discretize-components/dist/index.css";
+import TopBar from "@/components/TopBar";
 import "@discretize/gw2-ui-new/dist/default_style.css";
 import "@discretize/gw2-ui-new/dist/index.css";
+import "@discretize/react-discretize-components/dist/index.css";
 import "@discretize/typeface-menomonia";
-import ChatCode from "@/components/ChatCode";
 
 // For some reason the edge runtime does not allow a top level import for the run function in dev mode only... production works fine with the imported version
 let run: () => Promise<
@@ -44,6 +44,7 @@ export default function Page({
   name,
   character,
   chatcode,
+  optimizerSettingsLink,
 }: Build & BuildPageProps) {
   const [mdxModule, setMdxModule] = useState();
   const hasDescription = mdx === undefined || mdx?.length > 0;
@@ -77,9 +78,7 @@ export default function Page({
         {spec && " "}
         {name}
       </h1>
-
-      {chatcode && <ChatCode code={chatcode} />}
-
+      <TopBar optimizerLink={optimizerSettingsLink} chatcode={chatcode} />
       {character ? (
         <>
           <Character

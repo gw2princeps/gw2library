@@ -8,6 +8,7 @@ export interface Build {
   mdx: string;
   character: Character;
   chatcode: string;
+  optimizerSettingsLink: string;
 }
 
 export interface Traits {

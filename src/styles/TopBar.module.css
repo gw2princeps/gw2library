@@ -1,0 +1,17 @@
+.buttongroup {
+  margin-bottom: 1rem;
+}
+
+.optimizerButton {
+  display: flex;
+  margin: 0 1rem;
+}
+
+.discretizeLogo {
+  margin-top: -2px;
+  margin-right: 0.4rem;
+}
+
+.chatcode {
+  font-size: 0.6rem;
+}
