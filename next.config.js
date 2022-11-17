@@ -9,6 +9,7 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 const nextConfig = {
   experimental: {
     runtime: "experimental-edge",
+    appDir: true,
   },
   reactStrictMode: true,
   swcMinify: true,

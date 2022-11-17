@@ -1,3 +1,4 @@
+"use client";
 import Navbar from "./NavBar";
 import Footer from "./Footer";
 import { Classes } from "@blueprintjs/core";
