@@ -1,28 +1,23 @@
 import components from "@/components/components";
 import Traits from "@/components/Traits";
 import classes from "@/styles/BuildPage.module.css";
-import { Classes, H2, Switch, Tag } from "@blueprintjs/core";
-import {
-  APILanguageProvider,
-  Error,
-  Icon,
-  Profession,
-} from "@discretize/gw2-ui-new";
+import { Classes, H2, Switch } from "@blueprintjs/core";
+import { APILanguageProvider, Error } from "@discretize/gw2-ui-new";
 import { Character } from "@discretize/react-discretize-components";
 import { run as importedRun } from "@mdx-js/mdx";
 import { MDXProvider } from "@mdx-js/react";
-import { GetServerSideProps, GetStaticProps } from "next";
+import { GetStaticProps } from "next";
 import { Fragment, useEffect, useState } from "react";
 import * as runtime from "react/jsx-runtime";
 import { Build } from "src/types/Build";
 import getProfessionImage from "src/utils/ProfessionImages";
 
+import BuildHeader from "@/components/BuildHeader";
 import TopBar from "@/components/TopBar";
 import "@discretize/gw2-ui-new/dist/default_style.css";
 import "@discretize/gw2-ui-new/dist/index.css";
 import "@discretize/react-discretize-components/dist/index.css";
 import "@discretize/typeface-menomonia";
-import BuildHeader from "@/components/BuildHeader";
 
 // For some reason the edge runtime does not allow a top level import for the run function in dev mode only... production works fine with the imported version
 let run: () => Promise<
@@ -137,7 +132,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       revalidate: 10,
     };
   }
-  console.log(context);
+
   const buildInfo = await fetch(
     `${process.env?.NEXT_PUBLIC_URL}/api/builds/get/${buildid}`
   );
@@ -156,43 +151,3 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return { props: { ...build }, revalidate: 10 };
 };
-
-/*
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const buildid = context.req.url?.split("/")[2];
-  console.log("buildid", buildid);
-  if (!buildid) {
-    return {
-      props: {
-        code: "",
-        time: Date.now(),
-        status: "404",
-      },
-      // revalidate: 10,
-    };
-  }
-
-  const buildInfo = await fetch(
-    `${process.env?.HOST || "http://localhost:8788"}/api/builds/get/${buildid}`
-  );
-  console.log(buildInfo.status);
-  if (buildInfo.status !== 200) {
-    return {
-      props: {
-        code: "",
-        time: Date.now(),
-        status: "500",
-      },
-      //revalidate: 10,
-    };
-  }
-
-  const build: Build = await buildInfo.json();
-
-  return {
-    props: { ...build },
-    // revalidate: 10
-  };
-};
-
-*/
