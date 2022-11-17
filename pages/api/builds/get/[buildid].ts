@@ -15,16 +15,16 @@ const BUILDS = {
   },
 };
 
-export default async function getBuild(req: NextRequest) {
+export default async function getBuild(req: Request) {
   if (req.method !== "GET") {
     return new Response("Method Not Allowed", { status: 405 });
   }
-
-  if (!req.nextUrl.searchParams.has("buildid")) {
+  console.log(req.url.split("/"));
+  if (req.url.split("/").length !== 7) {
     return new Response("Missing buildid", { status: 400 });
   }
 
-  const buildid = req.nextUrl.searchParams.get("buildid") || "";
+  const buildid = req.url.split("/")[6] || "";
 
   // @ts-ignore
   const build = BUILDS[buildid];

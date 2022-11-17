@@ -2,11 +2,11 @@ import components from "@/components/components";
 import Traits from "@/components/Traits";
 import classes from "@/styles/BuildPage.module.css";
 import { Classes, H2, Switch, Tag } from "@blueprintjs/core";
-import { Profession } from "@discretize/gw2-ui-new";
+import { APILanguageProvider, Profession } from "@discretize/gw2-ui-new";
 import { Character } from "@discretize/react-discretize-components";
 import { run as importedRun } from "@mdx-js/mdx";
 import { MDXProvider } from "@mdx-js/react";
-import { GetStaticProps } from "next";
+import { GetServerSideProps, GetStaticProps } from "next";
 import { Fragment, useEffect, useState } from "react";
 import * as runtime from "react/jsx-runtime";
 import { Build } from "src/types/Build";
@@ -28,13 +28,13 @@ if (process.env.NODE_ENV === "production") {
 } else {
   run = async () => (await import("@mdx-js/mdx")).run;
 }
-
+/*
 export function getStaticPaths() {
   return {
     paths: [],
     fallback: true,
   };
-}
+}*/
 
 interface BuildPageProps {
   status: string;
@@ -72,49 +72,52 @@ export default function Page({
     }
   }, [mdx]);
 
-  const spec = character.attributes.specialization;
+  const spec = character?.attributes?.specialization;
 
   return (
-    <section className={`buildsection ${classes.root}`}>
-      <BuildHeader specialization={spec} timestamp={timestamp} name={name} />
-      <TopBar optimizerLink={optimizerSettingsLink} chatcode={chatcode} />
-      {character ? (
-        <>
-          <Character
-            {...character}
-            // @ts-ignore
-            imageElement={getProfessionImage(spec)}
-            // @ts-ignore
-            switchElement={Switch}
-          />
+    <APILanguageProvider value="en">
+      <section className={`buildsection ${classes.root}`}>
+        <BuildHeader specialization={spec} timestamp={timestamp} name={name} />
+        <TopBar optimizerLink={optimizerSettingsLink} chatcode={chatcode} />
+        {character ? (
+          <>
+            <Character
+              {...character}
+              // @ts-ignore
+              imageElement={getProfessionImage(spec)}
+              // @ts-ignore
+              switchElement={Switch}
+            />
 
-          <H2>Traits</H2>
+            <H2>Traits</H2>
 
-          <Traits traits={character.traits} />
-        </>
-      ) : undefined}
+            <Traits traits={character.traits} />
+          </>
+        ) : undefined}
 
-      {hasDescription ? (
-        <>
-          <H2 className={classes.divider}>Description</H2>
+        {hasDescription ? (
+          <>
+            <H2 className={classes.divider}>Description</H2>
 
-          <div
-            className={
-              loading ? `${Classes.SKELETON} ${classes.loadingMdxText}` : ""
-            }
-          >
-            <MDXProvider components={components}>
-              <Content />
-            </MDXProvider>
-          </div>
-        </>
-      ) : undefined}
-    </section>
+            <div
+              className={
+                loading ? `${Classes.SKELETON} ${classes.loadingMdxText}` : ""
+              }
+            >
+              <MDXProvider components={components}>
+                <Content />
+              </MDXProvider>
+            </div>
+          </>
+        ) : undefined}
+      </section>
+    </APILanguageProvider>
   );
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  const buildid = context.params?.buildid;
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const buildid = context.req.url?.split("/")[2];
+  console.log("buildid", buildid);
   if (!buildid) {
     return {
       props: {
@@ -122,13 +125,14 @@ export const getStaticProps: GetStaticProps = async (context) => {
         time: Date.now(),
         status: "404",
       },
-      revalidate: 10,
+      // revalidate: 10,
     };
   }
 
   const buildInfo = await fetch(
-    `${process.env?.HOST}/api/builds/get/${buildid}`
+    `${process.env?.HOST || "http://localhost:8788"}/api/builds/get/${buildid}`
   );
+  console.log(buildInfo.status);
   if (buildInfo.status !== 200) {
     return {
       props: {
@@ -136,11 +140,14 @@ export const getStaticProps: GetStaticProps = async (context) => {
         time: Date.now(),
         status: "500",
       },
-      revalidate: 10,
+      //revalidate: 10,
     };
   }
 
   const build: Build = await buildInfo.json();
 
-  return { props: { ...build }, revalidate: 10 };
+  return {
+    props: { ...build },
+    // revalidate: 10
+  };
 };

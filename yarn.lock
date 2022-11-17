@@ -59,10 +59,10 @@
     cookie "^0.5.0"
     esbuild "^0.15.3"
 
-"@discretize/gw2-ui-new@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.npmjs.org/@discretize/gw2-ui-new/-/gw2-ui-new-0.1.0.tgz"
-  integrity sha512-UO2lGSU8fu6bA86ke2DberHZBazBKbOISxdSqahBM9ml6OgdhAla1+lSAsuYHuSW/Ve4dtocMbqy7l3m1SC89A==
+"@discretize/gw2-ui-new@^0.1.0", "@discretize/gw2-ui-new@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.npmjs.org/@discretize/gw2-ui-new/-/gw2-ui-new-0.1.1.tgz"
+  integrity sha512-LmGLzhP1STZ3fpB4jJvZ74dRK3k0hDWsdMfxhG2e6KhgBXS8odVJ/g1GYm9SaqOYFmmrWwrz05oRxijqItm8FQ==
   dependencies:
     "@discretize/typeface-menomonia" "^0.1.3"
     clsx "^1.1.1"
