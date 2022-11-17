@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "devedge": "npx @cloudflare/next-on-pages --watch npx wrangler pages dev .vercel/output/static",
+    "devedge": "npx @cloudflare/next-on-pages --watch",
+    "devedge2": "npx wrangler pages dev .vercel/output/static",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -42,6 +43,7 @@
     "node": ">=16"
   },
   "devDependencies": {
-    "vercel": "^28.4.17"
+    "@cloudflare/next-on-pages": "^0.2.0",
+    "vercel": "^28.5.4"
   }
 }
