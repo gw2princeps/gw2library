@@ -58,8 +58,10 @@
     react "^18.2.0"
     react-dom "^18.2.0"
 
-"@discretize/react-discretize-components@file:../discretize-ui/react-discretize-components":
-  version "2.4.0"
+"@discretize/react-discretize-components@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@discretize/react-discretize-components/-/react-discretize-components-2.5.0.tgz#08741c75ab643df540fc5e3910b64a924d662196"
+  integrity sha512-GIKKadgTjEd6QliPdrHqUbBtSJg/MAK985EESVE+TvcrDxaYNNSWWxc0mpIP1n6PRLTBh+ZdLNgbl6kxaBE/MQ==
   dependencies:
     "@discretize/gw2-ui-new" "^0.1.0"
     "@discretize/typeface-menomonia" "^0.1.3"
