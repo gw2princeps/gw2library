@@ -137,9 +137,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
       revalidate: 10,
     };
   }
-
+  console.log(context);
   const buildInfo = await fetch(
-    `${process.env?.HOST}/api/builds/get/${buildid}`
+    `${process.env?.NEXT_PUBLIC_URL}/api/builds/get/${buildid}`
   );
   if (buildInfo.status !== 200) {
     return {

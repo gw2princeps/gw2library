@@ -1,5 +1,9 @@
 import { NextRequest } from "next/server";
 
+export const config = {
+  runtime: "experimental-edge",
+};
+
 const BUILDS = {
   thief: {
     name: "Super duper thief",
@@ -19,14 +23,7 @@ export default async function getBuild(req: NextRequest) {
   if (req.method !== "GET") {
     return new Response("Method Not Allowed", { status: 405 });
   }
-  /*
-  console.log(req.url.split("/"));
-  if (req.url.split("/").length !== 7) {
-    return new Response("Missing buildid", { status: 400 });
-  }
 
-  const buildid = req.url.split("/")[6] || "";
-  */
   if (!req.nextUrl.searchParams.has("buildid")) {
     return new Response("Missing buildid", { status: 400 });
   }
