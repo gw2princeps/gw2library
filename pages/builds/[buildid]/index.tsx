@@ -2,7 +2,12 @@ import components from "@/components/components";
 import Traits from "@/components/Traits";
 import classes from "@/styles/BuildPage.module.css";
 import { Classes, H2, Switch, Tag } from "@blueprintjs/core";
-import { APILanguageProvider, Profession } from "@discretize/gw2-ui-new";
+import {
+  APILanguageProvider,
+  Error,
+  Icon,
+  Profession,
+} from "@discretize/gw2-ui-new";
 import { Character } from "@discretize/react-discretize-components";
 import { run as importedRun } from "@mdx-js/mdx";
 import { MDXProvider } from "@mdx-js/react";
@@ -28,13 +33,13 @@ if (process.env.NODE_ENV === "production") {
 } else {
   run = async () => (await import("@mdx-js/mdx")).run;
 }
-/*
+
 export function getStaticPaths() {
   return {
     paths: [],
     fallback: true,
   };
-}*/
+}
 
 interface BuildPageProps {
   status: string;
@@ -47,6 +52,7 @@ export default function Page({
   chatcode,
   optimizerSettingsLink,
   timestamp,
+  status,
 }: Build & BuildPageProps) {
   const [mdxModule, setMdxModule] = useState();
 
@@ -79,6 +85,10 @@ export default function Page({
       <section className={`buildsection ${classes.root}`}>
         <BuildHeader specialization={spec} timestamp={timestamp} name={name} />
         <TopBar optimizerLink={optimizerSettingsLink} chatcode={chatcode} />
+
+        {status === "404" && (
+          <Error code={404} message="Build not found" name="404" />
+        )}
         {character ? (
           <>
             <Character
@@ -115,6 +125,39 @@ export default function Page({
   );
 }
 
+export const getStaticProps: GetStaticProps = async (context) => {
+  const buildid = context.params?.buildid;
+  if (!buildid) {
+    return {
+      props: {
+        code: "",
+        time: Date.now(),
+        status: "404",
+      },
+      revalidate: 10,
+    };
+  }
+
+  const buildInfo = await fetch(
+    `${process.env?.HOST}/api/builds/get/${buildid}`
+  );
+  if (buildInfo.status !== 200) {
+    return {
+      props: {
+        code: "",
+        time: Date.now(),
+        status: "500",
+      },
+      revalidate: 10,
+    };
+  }
+
+  const build: Build = await buildInfo.json();
+
+  return { props: { ...build }, revalidate: 10 };
+};
+
+/*
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const buildid = context.req.url?.split("/")[2];
   console.log("buildid", buildid);
@@ -151,3 +194,5 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     // revalidate: 10
   };
 };
+
+*/
