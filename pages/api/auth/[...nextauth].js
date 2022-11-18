@@ -1,4 +1,5 @@
 import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 export const config = {
   runtime: "nodejs",
@@ -34,8 +35,11 @@ export const authOptions = {
 
       userinfo: {
         request: (context) => {
+          // we have to build our own profile since gw2auth does not support an userinfo endpoint
           const token = context.tokens.access_token;
 
+          // the payload of the access_token contains useful information
+          // https://github.com/gw2auth/oauth2-server/wiki#reading-the-gw2-api-subtokens-out-of-the-access-token
           const profile = JSON.parse(atob(token.split(".")[1]));
           return { id: profile.sub, profile };
         },
@@ -44,30 +48,58 @@ export const authOptions = {
       clientId: process.env.GW2AUTH_CLIENT_ID,
       clientSecret: process.env.GW2AUTH_SECRET,
 
-      profile(profile, tokens) {
-        console.log(`Profile: ${profile}`);
-        console.log(`Tokens: ${tokens}`);
+      profile(profile) {
+        // just return the profile
         return profile;
       },
     },
+    process.env.NODE_ENV === "development" &&
+      CredentialsProvider({
+        // The name to display on the sign in form (e.g. 'Sign in with...')
+        name: "Credentials",
+        // The credentials is used to generate a suitable form on the sign in page.
+        // You can specify whatever fields you are expecting to be submitted.
+        // e.g. domain, username, password, 2FA token, etc.
+        // You can pass any HTML attribute to the <input> tag through the object.
+        credentials: {
+          username: {
+            label: "Username",
+            type: "text",
+            placeholder: "admin only",
+          },
+          password: { label: "Password", type: "password" },
+        },
+        async authorize(credentials, req) {
+          if (
+            credentials.username === "admin" &&
+            credentials.password === "admin"
+          ) {
+            return {
+              id: 1,
+              profile: {
+                sub: "admin",
+                "gw2:tokens": {
+                  mockaccid: {
+                    name: "Admin",
+                  },
+                },
+              },
+            };
+          }
+          return null;
+        },
+      }),
   ],
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-      if (user) console.log(`Signin-User: ${user}`);
-      if (account) console.log(`Signin-Account: ${account}`);
-      if (profile) console.log(`Signin-Profile: ${profile}`);
-      if (email) console.log(`Signin-Email: ${email}`);
-      if (credentials) console.log(`Signin-Credentials: ${credentials}`);
+      // we could deny the signIn here, for example for banning users.
       return true;
     },
     async redirect({ url, baseUrl }) {
       return baseUrl;
     },
     async session({ session, user, token }) {
-      if (session) console.log(`S-Session: ${JSON.stringify(session)}`);
-      if (user) console.log(`S-User: ${JSON.stringify(user)}`);
-      if (token) console.log(`S-Token: ${JSON.stringify(token)}`);
-
+      // called last. we can attach things that are passed to the client here
       if (!token) {
         return session;
       }
@@ -80,17 +112,12 @@ export const authOptions = {
     async jwt({ token, user, account, profile, isNewUser }) {
       // this is called after profile
       // user contains the object returned by the profile function
-      if (token) console.log(`JWT-Token: ${JSON.stringify(token)}`);
-      if (user) console.log(`JWT-User  : ${JSON.stringify(user)}`);
-      if (account) console.log(`JWT-Account: ${JSON.stringify(account)}`);
-      if (profile) console.log(`JWT-Profile: ${JSON.stringify(profile)}`);
-      if (isNewUser) console.log(`JWT-NewUser: ${JSON.stringify(isNewUser)}`);
       if (!user) return token;
 
       // we strip the id, since the id is the same as the sub and therefore already included in the profile
-      return { ...token, profile: { ...user.profile } };
+      return { ...token, profile: user.profile };
     },
   },
-  debug: true,
+  debug: false,
 };
 export default NextAuth(authOptions);

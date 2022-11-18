@@ -1,6 +1,8 @@
 import type { AppProps } from "next/app";
 
 import "@blueprintjs/core/lib/css/blueprint.css";
+import "@blueprintjs/popover2/lib/css/blueprint-popover2.css";
+
 import "@/styles/globals.css";
 import "normalize.css/normalize.css";
 import "typeface-muli";

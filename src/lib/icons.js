@@ -9,6 +9,8 @@ import {
   Clipboard,
   Tick,
   Error,
+  User,
+  LogOut,
 } from "@blueprintjs/icons/lib/esm/generated/16px/paths";
 import {
   Home as Home20,
@@ -34,6 +36,8 @@ export const IconSvgPaths16 = {
   Clipboard,
   Tick,
   Error,
+  User,
+  LogOut,
 };
 
 export const IconSvgPaths20 = {

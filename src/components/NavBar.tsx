@@ -12,10 +12,13 @@ import classes from "@/styles/NavBar.module.css";
 import React from "react";
 import Link from "next/link";
 import LoginButton from "@/components/LoginButton";
+import { useSession } from "next-auth/react";
+import AccountButton from "./AccountButton";
 
 const NavBar = function NavBar() {
   const [icon, setIcon] = React.useState<IconName>("moon");
 
+  const { data: session } = useSession();
   const { isDarkMode, toggle } = useDarkMode(true);
   const size = useWindowSize();
   const minimal = size.width < 420;
@@ -38,20 +41,24 @@ const NavBar = function NavBar() {
         </NavbarGroup>
       )}
       <NavbarGroup align={Alignment.RIGHT}>
-        <div>
-          <Button
-            minimal={true}
-            icon={icon}
-            // @ts-ignore
-            onClick={() => toggle()}
-          />
-        </div>
+        <Button
+          minimal={true}
+          icon={icon}
+          // @ts-ignore
+          onClick={() => toggle()}
+        />
 
         <NavbarDivider />
         <LoginButton />
-        <Link href="/builds/add">
-          <Button intent="primary" icon="add" text="Add Build" />
-        </Link>
+        {session && (
+          <>
+            <Link href="/builds/add">
+              <Button intent="primary" icon="add" text="Add Build" />
+            </Link>
+
+            <AccountButton />
+          </>
+        )}
       </NavbarGroup>
     </Navbar>
   );

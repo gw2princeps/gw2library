@@ -1,19 +1,28 @@
-import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
+import { PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { encode } from "gw2e-chat-codes";
 import { NextApiRequest, NextApiResponse } from "next";
+import { unstable_getServerSession } from "next-auth/next";
 import { convertMDX } from "src/lambda/index.mjs";
 import { getBuildmeta } from "src/utils/chatcodes";
 import { client } from "src/utils/dbclient";
 import { v4 as uuidv4 } from "uuid";
+import { authOptions } from "../auth/[...nextauth]";
 
 export const config = {
   runtime: "nodejs",
 };
 
-export default async function addBuild(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  // @ts-ignore
+  const session = await unstable_getServerSession(req, res, authOptions);
+
+  if (!session) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
   if (req.method !== "PUT") {
     return res.status(405).json({ error: "Method not allowed" });
   }
@@ -50,6 +59,7 @@ export default async function addBuild(
         chatcode: { S: chatcode || "" },
         mdx: { S: converted.code },
         timestamp: { N: Date.now().toString() },
+        creator: { S: session.user?.sub },
       },
     })
   );
