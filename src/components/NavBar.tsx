@@ -41,12 +41,7 @@ const NavBar = function NavBar() {
         </NavbarGroup>
       )}
       <NavbarGroup align={Alignment.RIGHT}>
-        <Button
-          minimal={true}
-          icon={icon}
-          // @ts-ignore
-          onClick={() => toggle()}
-        />
+        <Button minimal={true} icon={icon} large onClick={() => toggle()} />
 
         <NavbarDivider />
         <LoginButton />

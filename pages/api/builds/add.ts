@@ -38,7 +38,7 @@ export default async function handler(
 
   let chatcode: string | false = "";
   try {
-    chatcode = encode("build", await getBuildmeta(JSON.parse(build.character)));
+    chatcode = encode("build", await getBuildmeta(build.character));
   } catch (e) {
     return res.status(400).json({ error: "Invalid character" });
   }
