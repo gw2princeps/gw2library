@@ -45,10 +45,11 @@ const AddBuildForm = function AddBuildForm() {
         description,
         character,
       }),
-    }).then((res) => {
+    }).then(async (res) => {
       setSubmitting(false);
+      const json = await res.json();
       if (res.status == 201) {
-        res.json().then((json) => setLastUploaded(json.id));
+        setLastUploaded(json.id);
         setName("");
         setOptimizerSettingsLink("");
         setDescription("");
@@ -60,7 +61,7 @@ const AddBuildForm = function AddBuildForm() {
         });
       } else {
         AppToaster?.show({
-          message: "Upload failed.",
+          message: `Upload failed: ${json.error}`,
           intent: "danger",
           isCloseButtonShown: true,
         });
