@@ -51,9 +51,11 @@ export const authOptions = {
   ],
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
-      console.log(
-        `User: ${user} ${account} ${profile} ${email} ${credentials}`
-      );
+      if (user) console.log(`Signin-User: ${user}`);
+      if (account) console.log(`Signin-Account: ${account}`);
+      if (profile) console.log(`Signin-Profile: ${profile}`);
+      if (email) console.log(`Signin-Email: ${email}`);
+      if (credentials) console.log(`Signin Credentials: ${credentials}`);
       return true;
     },
     async redirect({ url, baseUrl }) {
@@ -61,11 +63,18 @@ export const authOptions = {
       return baseUrl;
     },
     async session({ session, user, token }) {
-      console.log(`Session: ${session} ${user} ${token}`);
+      if (session) console.log(`S-Session: ${JSON.stringify(session)}`);
+      if (user) console.log(`S-User: ${JSON.stringify(user)}`);
+      if (token) console.log(`-Token: ${JSON.stringify(token)}`);
       return session;
     },
     async jwt({ token, user, account, profile, isNewUser }) {
-      console.log(`JWT: ${token} ${user} ${account} ${profile} ${isNewUser}`);
+      if (token) console.log(`JWT-Token: ${JSON.stringify(token)}`);
+      if (user) console.log(`JWT-User  : ${JSON.stringify(user)}`);
+      if (account) console.log(`JWT-Account: ${JSON.stringify(account)}`);
+      if (profile) console.log(`JWT-Profile: ${JSON.stringify(profile)}`);
+      if (isNewUser) console.log(`JWT-NewUser: ${JSON.stringify(isNewUser)}`);
+
       return token;
     },
   },
