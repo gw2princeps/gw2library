@@ -19,7 +19,7 @@ export const authOptions = {
           redirect_uri: `${process.env.NEXT_PUBLIC_URL}/api/auth/callback/gw2auth`,
         },
       },
-      idToken: true,
+      idToken: false,
 
       clientId: process.env.GW2AUTH_CLIENT_ID,
       clientSecret: process.env.GW2AUTH_SECRET,
