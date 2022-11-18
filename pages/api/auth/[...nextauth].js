@@ -12,8 +12,9 @@ export const authOptions = {
       name: "Gw2Auth",
       type: "oauth",
       version: "2.0",
-      wellKnown: "https://gw2auth.com/.well-known/oauth-authorization-server",
+
       authorization: {
+        url: "https://gw2auth.com/oauth2/authorize",
         params: {
           scope: "gw2auth:verified",
           redirect_uri: `${process.env.NEXT_PUBLIC_URL}/api/auth/callback/gw2auth`,
@@ -24,8 +25,11 @@ export const authOptions = {
         url: "https://gw2auth.com/oauth2/token",
         params: {
           redirect_uri: `${process.env.NEXT_PUBLIC_URL}/api/auth/callback/gw2auth`,
+          grant_type: "authorization_code",
         },
       },
+      idToken: false,
+      issuer: "https://gw2auth.com",
 
       clientId: process.env.GW2AUTH_CLIENT_ID,
       clientSecret: process.env.GW2AUTH_SECRET,
