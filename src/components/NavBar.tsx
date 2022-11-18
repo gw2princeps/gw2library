@@ -5,13 +5,13 @@ import {
   NavbarDivider,
   NavbarGroup,
   NavbarHeading,
-  Classes,
   IconName,
 } from "@blueprintjs/core";
 import { useDarkMode, useWindowSize } from "usehooks-ts";
 import classes from "@/styles/NavBar.module.css";
 import React from "react";
 import Link from "next/link";
+import LoginButton from "@/components/LoginButton";
 
 const NavBar = function NavBar() {
   const [icon, setIcon] = React.useState<IconName>("moon");
@@ -48,9 +48,7 @@ const NavBar = function NavBar() {
         </div>
 
         <NavbarDivider />
-        <Link href="/login">
-          <Button className={Classes.MINIMAL} icon="log-in" text="Login" />
-        </Link>
+        <LoginButton />
         <Link href="/builds/add">
           <Button intent="primary" icon="add" text="Add Build" />
         </Link>

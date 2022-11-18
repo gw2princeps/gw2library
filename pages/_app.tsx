@@ -8,13 +8,16 @@ import "typeface-raleway";
 
 import Layout from "@/components/Layout";
 import { FocusStyleManager } from "@blueprintjs/core";
+import { SessionProvider } from "next-auth/react";
 
 FocusStyleManager.onlyShowFocusOnTabs();
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <SessionProvider session={pageProps.session}>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </SessionProvider>
   );
 }
