@@ -85,6 +85,8 @@ export const authOptions = {
       if (account) console.log(`JWT-Account: ${JSON.stringify(account)}`);
       if (profile) console.log(`JWT-Profile: ${JSON.stringify(profile)}`);
       if (isNewUser) console.log(`JWT-NewUser: ${JSON.stringify(isNewUser)}`);
+      if (!user) return token;
+
       // we strip the id, since the id is the same as the sub and therefore already included in the profile
       return { ...token, profile: { ...user.profile } };
     },
