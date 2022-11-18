@@ -12,6 +12,7 @@ export const authOptions = {
       name: "Gw2Auth",
       type: "oauth",
       version: "2.0",
+      wellKnown: "https://gw2auth.com/.well-known/oauth-authorization-server",
 
       authorization: {
         url: "https://gw2auth.com/oauth2/authorize",
@@ -39,8 +40,8 @@ export const authOptions = {
       clientSecret: process.env.GW2AUTH_SECRET,
 
       profile(profile) {
-        console.log(profile);
-        return profile;
+        console.log(`Profile: ${profile}`);
+        return {};
       },
     },
   ],
