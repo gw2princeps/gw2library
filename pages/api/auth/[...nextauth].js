@@ -17,16 +17,15 @@ export const authOptions = {
         params: {
           scope: "gw2auth:verified",
           redirect_uri: `${process.env.NEXT_PUBLIC_URL}/api/auth/callback/gw2auth`,
-          name: "GW2Library",
         },
       },
 
       token: {
+        url: "https://gw2auth.com/oauth2/token",
         params: {
           redirect_uri: `${process.env.NEXT_PUBLIC_URL}/api/auth/callback/gw2auth`,
         },
       },
-      idToken: false,
 
       clientId: process.env.GW2AUTH_CLIENT_ID,
       clientSecret: process.env.GW2AUTH_SECRET,
