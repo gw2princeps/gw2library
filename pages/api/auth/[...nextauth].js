@@ -45,5 +45,27 @@ export const authOptions = {
       },
     },
   ],
+  callbacks: {
+    async signIn({ user, account, profile, email, credentials }) {
+      console.log(
+        `User: ${user} ${account} ${profile} ${email} ${credentials}`
+      );
+      return true;
+    },
+    async redirect({ url, baseUrl }) {
+      console.log("Redirecting: ${url} ${baseUrl}");
+      return baseUrl;
+    },
+    async session({ session, user, token }) {
+      console.log("session");
+      console.log(session, user, token);
+      return session;
+    },
+    async jwt({ token, user, account, profile, isNewUser }) {
+      console.log("JWT");
+      console.log(token, user, account, profile, isNewUser);
+      return token;
+    },
+  },
 };
 export default NextAuth(authOptions);
