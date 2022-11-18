@@ -53,17 +53,15 @@ export const authOptions = {
       return true;
     },
     async redirect({ url, baseUrl }) {
-      console.log("Redirecting: ${url} ${baseUrl}");
+      console.log(`Redirect: ${url} ${baseUrl}`);
       return baseUrl;
     },
     async session({ session, user, token }) {
-      console.log("session");
-      console.log(session, user, token);
+      console.log(`Session: ${session} ${user} ${token}`);
       return session;
     },
     async jwt({ token, user, account, profile, isNewUser }) {
-      console.log("JWT");
-      console.log(token, user, account, profile, isNewUser);
+      console.log(`JWT: ${token} ${user} ${account} ${profile} ${isNewUser}`);
       return token;
     },
   },
