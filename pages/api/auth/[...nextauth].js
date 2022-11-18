@@ -47,7 +47,7 @@ export const authOptions = {
       profile(profile, tokens) {
         console.log(`Profile: ${profile}`);
         console.log(`Tokens: ${tokens}`);
-        return { from: "profile", id: JSON.stringify(tokens) };
+        return profile;
       },
     },
   ],
@@ -68,7 +68,10 @@ export const authOptions = {
       if (user) console.log(`S-User: ${JSON.stringify(user)}`);
       if (token) console.log(`S-Token: ${JSON.stringify(token)}`);
 
-      return { ...session, user: { ...user, hello: "fromUser" } };
+      const profile = JSON.parse(atob(token.access_token.split(".")[1]));
+      const { name } =
+        profile["gw2:tokens"][Object.keys(profile["gw2:tokens"])[0]];
+      return { ...session, user: { ...user, sub: profile.sub, name } };
     },
     async jwt({ token, user, account, profile, isNewUser }) {
       if (token) console.log(`JWT-Token: ${JSON.stringify(token)}`);
