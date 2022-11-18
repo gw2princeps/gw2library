@@ -42,8 +42,9 @@ export const authOptions = {
       clientId: process.env.GW2AUTH_CLIENT_ID,
       clientSecret: process.env.GW2AUTH_SECRET,
 
-      profile(profile) {
+      profile(profile, tokens) {
         console.log(`Profile: ${profile}`);
+        console.log(`Tokens: ${tokens}`);
         return { id: "somethingID" };
       },
     },
