@@ -68,17 +68,24 @@ export const authOptions = {
       if (user) console.log(`S-User: ${JSON.stringify(user)}`);
       if (token) console.log(`S-Token: ${JSON.stringify(token)}`);
 
+      if (!token) {
+        return session;
+      }
+
       const profile = token.profile;
-      const { name } = profile["gw2:tokens"][profile.sub];
+      const { name } =
+        profile["gw2:tokens"][Object.keys(profile["gw2:tokens"])[0]];
       return { ...session, user: { ...user, sub: profile.sub, name } };
     },
     async jwt({ token, user, account, profile, isNewUser }) {
+      // this is called after profile
+      // user contains the object returned by the profile function
       if (token) console.log(`JWT-Token: ${JSON.stringify(token)}`);
       if (user) console.log(`JWT-User  : ${JSON.stringify(user)}`);
       if (account) console.log(`JWT-Account: ${JSON.stringify(account)}`);
       if (profile) console.log(`JWT-Profile: ${JSON.stringify(profile)}`);
       if (isNewUser) console.log(`JWT-NewUser: ${JSON.stringify(isNewUser)}`);
-
+      // we strip the id, since the id is the same as the sub and therefore already included in the profile
       return { ...token, profile: { ...user.profile } };
     },
   },
