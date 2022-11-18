@@ -33,7 +33,10 @@ export const authOptions = {
       issuer: "https://gw2auth.com",
 
       userinfo: {
-        request: () => {},
+        request: (context) => {
+          console.log(context);
+          return {};
+        },
       },
 
       clientId: process.env.GW2AUTH_CLIENT_ID,
