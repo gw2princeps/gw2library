@@ -17,6 +17,13 @@ export const authOptions = {
         params: {
           scope: "gw2auth:verified",
           redirect_uri: `${process.env.NEXT_PUBLIC_URL}/api/auth/callback/gw2auth`,
+          name: "GW2Library",
+        },
+      },
+
+      token: {
+        params: {
+          redirect_uri: `${process.env.NEXT_PUBLIC_URL}/api/auth/callback/gw2auth`,
         },
       },
       idToken: false,
@@ -25,20 +32,5 @@ export const authOptions = {
       clientSecret: process.env.GW2AUTH_SECRET,
     },
   ],
-  callbacks: {
-    async jwt({ token, account }) {
-      // Persist the OAuth access_token to the token right after signin
-      console.log(token);
-      if (account) {
-        token.accessToken = account.access_token;
-      }
-      return token;
-    },
-    async session({ session, token, user }) {
-      // Send properties to the client, like an access_token from a provider.
-      session.accessToken = token.accessToken;
-      return session;
-    },
-  },
 };
 export default NextAuth(authOptions);
