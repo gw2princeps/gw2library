@@ -45,7 +45,7 @@ export const authOptions = {
       profile(profile, tokens) {
         console.log(`Profile: ${profile}`);
         console.log(`Tokens: ${tokens}`);
-        return { id: "somethingID" };
+        return { id: JSON.stringify(tokens) };
       },
     },
   ],
@@ -65,7 +65,7 @@ export const authOptions = {
     async session({ session, user, token }) {
       if (session) console.log(`S-Session: ${JSON.stringify(session)}`);
       if (user) console.log(`S-User: ${JSON.stringify(user)}`);
-      if (token) console.log(`-Token: ${JSON.stringify(token)}`);
+      if (token) console.log(`S-Token: ${JSON.stringify(token)}`);
       return session;
     },
     async jwt({ token, user, account, profile, isNewUser }) {
