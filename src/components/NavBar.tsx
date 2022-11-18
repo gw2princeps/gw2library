@@ -51,7 +51,7 @@ const NavBar = function NavBar() {
         <Link href="/login">
           <Button className={Classes.MINIMAL} icon="log-in" text="Login" />
         </Link>
-        <Link href="/add">
+        <Link href="/builds/add">
           <Button intent="primary" icon="add" text="Add Build" />
         </Link>
       </NavbarGroup>

@@ -38,4 +38,4 @@ const handler = async (event) => {
   return response;
 };
 
-export { handler };
+export { handler, convertMDX };

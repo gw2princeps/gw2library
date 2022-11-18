@@ -1,48 +1,62 @@
+import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { encode } from "gw2e-chat-codes";
-import { NextRequest } from "next/server";
+import { NextApiRequest, NextApiResponse } from "next";
+import { convertMDX } from "src/lambda/index.mjs";
 import { getBuildmeta } from "src/utils/chatcodes";
+import { client } from "src/utils/dbclient";
+import { v4 as uuidv4 } from "uuid";
 
-export default async function addBuild(req: NextRequest) {
-  if (req.method !== "POST") {
-    return new Response("Method Not Allowed", { status: 405 });
+export const config = {
+  runtime: "nodejs",
+};
+
+export default async function addBuild(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method !== "PUT") {
+    return res.status(405).json({ error: "Method not allowed" });
   }
-  if (req.headers.get("content-type") !== "application/json") {
-    return new Response("Unsupported Media Type", { status: 415 });
+  if (req.headers["content-type"] !== "application/json") {
+    return res.status(415).json({ error: "Unsupported media type" });
   }
 
-  const build = await req.json();
+  const build = req.body;
 
-  let chatcode = encode(
-    "build",
-    await getBuildmeta(JSON.parse(build.character))
-  );
+  if (!build || !build.name || !build.character) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  let chatcode: string | false = "";
+  try {
+    chatcode = encode("build", await getBuildmeta(JSON.parse(build.character)));
+  } catch (e) {
+    return res.status(400).json({ error: "Invalid character" });
+  }
 
   console.log("Converting build to MDX...");
 
-  const response = await fetch(process.env.MDX_CONVERTER_LAMBDA_URL || "", {
-    method: "POST",
-    body: build.description,
-    headers: { "content-type": "text/plain" },
-  });
+  const converted = await convertMDX(build.description);
+  const id = uuidv4();
 
-  if (response.status !== 200) {
-    return new Response("Internal Server Error", { status: 500 });
+  const item = await client.send(
+    new PutItemCommand({
+      TableName: process.env.TABLE_NAME,
+      Item: {
+        id: { S: id },
+        name: { S: build.name },
+        character: { S: build.character },
+        description: { S: build.description },
+        chatcode: { S: chatcode || "" },
+        mdx: { S: converted.code },
+        timestamp: { N: Date.now().toString() },
+      },
+    })
+  );
+
+  if (item.$metadata.httpStatusCode !== 200) {
+    return res.status(500).json({ error: "Internal server error" });
   }
-  const json = await response.json();
 
-  console.log("Adding build", {
-    ...build,
-    mdx: json.code,
-    chatcode,
-    timestamp: new Date().toISOString(),
-  });
-
-  // lets wait 2 seconds here
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-
-  const res = new Response(JSON.stringify({ message: "success" }), {
-    status: 200,
-    headers: { "Content-Type": "application/json" },
-  });
-  return res;
+  return res.status(201).json({ id });
 }

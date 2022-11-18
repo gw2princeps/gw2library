@@ -2,6 +2,7 @@ import { Button, FormGroup, InputGroup, TextArea } from "@blueprintjs/core";
 import React from "react";
 import classes from "@/styles/AddBuildForm.module.css";
 import { AppToaster } from "src/utils/toaster";
+import Link from "next/link";
 
 const validateOptimizerSettings = (settings: string) =>
   settings.length == 0 ||
@@ -21,6 +22,7 @@ const AddBuildForm = function AddBuildForm() {
   const [optimizerSettingsLink, setOptimizerSettingsLink] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [character, setCharacter] = React.useState("");
+  const [lastUploaded, setLastUploaded] = React.useState("");
 
   const [submitting, setSubmitting] = React.useState(false);
 
@@ -31,10 +33,9 @@ const AddBuildForm = function AddBuildForm() {
   };
 
   const submit = () => {
-    console.log("submit");
     setSubmitting(true);
     fetch("/api/builds/add", {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
@@ -46,7 +47,8 @@ const AddBuildForm = function AddBuildForm() {
       }),
     }).then((res) => {
       setSubmitting(false);
-      if (res.status == 200) {
+      if (res.status == 201) {
+        res.json().then((json) => setLastUploaded(json.id));
         setName("");
         setOptimizerSettingsLink("");
         setDescription("");
@@ -137,6 +139,12 @@ const AddBuildForm = function AddBuildForm() {
           onClick={submit}
           loading={submitting}
         />
+
+        {lastUploaded && lastUploaded.length > 0 && (
+          <Link href={`/builds/${lastUploaded}`}>
+            <Button intent={"success"} text="Go to build" icon="upload" />
+          </Link>
+        )}
       </form>
     </>
   );

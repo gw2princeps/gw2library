@@ -1,14 +1,16 @@
+import { GetItemCommand } from "@aws-sdk/client-dynamodb";
 import { NextRequest } from "next/server";
+import { client } from "src/utils/dbclient";
 
 export const config = {
-  runtime: "experimental-edge",
+  runtime: "nodejs",
 };
 
 const BUILDS = {
   thief: {
     name: "Super duper thief",
     optimizerSettingsLink:
-      "http://localhost:3001/?m=fractals&v=0&data=XQAAAAJZSgAAAAAAAABAq4nnA9VsVEKPWfSDKzUnaifZ2LlbXZmA7WUgnMr3hgX6i0CzWo4Af-0B2ydvNkCRsM5KnZJQuNUOQXeTkHnZ0OEcpAY-kIJn5X4FlnVaER0iIU7Jqstf2wZFZN_Ktyp4HeGJkL79CDAKdHZZlaWlAw_kL5IGM7C4Qhw-1hzOF12pi9mDjZpWaSLZzxosY5WN_2HsSbOlkODFRvEIFewImKsFMHKZM-AhQS9EHhdmcLCTC23nmNypwX5T0bbitujUD5slShmT4WyDzIfvfeJ9kKTQQNY6lGuPiROwxMfhjrcC5-7wYEDgc8uKG1_-kteEpMYMQGc8AfGZ79V4pJUMtFOiUn8t-H3Ll2lmjla4m1aAGMIo0GTzhqtVzdW9Pm1pthWIyZ_JXrWa-_bLWycgAdhhvP46vA5FhS4SN7hoFYtADmYhSBrtoWPnAWGMDljYucjBMhbBkJOzbpPn3MHVHsAs9WscxHg2aPe_5H3mfaZC3V6wgiJFdHBZJNb47M-W9EFZN07qEgGekbsUY2wKLbReyOeW9fXVZ-K68YCkVebJhsXVj2huy1-jAtqD96gbTW1Eqc1rS2-Z9fI1vPeJ2_7mbb4r-EvZBq6KE82tff7AnMxX_YQre-MQccNG96IMnP4EUshu-vZH2JtZlVxxmUvaOAMnFkj7fHOxdwOPNsck7d_k1_K4MG-rhouqzeQl3XcjJFVTZmQDGDoq1jx8BshnWobE0hVufSjIQNprbQOsPRb14--yvBQ36pnUUg5__LzUNxDWjYWOA_4Q_XqXbRv28RPNKdh1wm2PQiHZli-jkHYrODPhVUHXmam3po5Grouap2kdqX_YvuR012GfpkfsofOKReEk-hx7ktK3MSZATJSJxI9wyMN4E7P7kkyF2jmrXrAYYEOI3HE-qWjOSugrY7H2cohm0_bxb7FI_WChXl5Nmk7avmxP70guLv_rHmmj-q75x-q8tcLolezFkGYY2BW_MClvksZywF8xlOXslZDoAbZ6_0oPfig_QJYbK03LkDV-mhpTfZLpt76T2wNcaceM-DNBSLCF1DXckpxanBms3njkmXXceXaFfdlbkgQVRDdnr3jBvSk83zfIWEAPpNpihDrCJpRzqJSToKrXn0mjmmJo8-mnES-IiLSTP0pI9CeHWsxOk_SAnUiz7K7s6_hW-VHTVkk_wAlA-jjyYl_-8cvYGnnxaVBHeKX3AN7flPvhwUDrSgpQ9XkBUDixY9EIrcd9wt5YRfK-DD4kRyW7GcCnvaJ1mF8-6Oczt90XGfEl5BlnsnkD4q2Ham0pfQIIHh3rK88WXCxXI44RJEKqgU-_RpgjZPzZmmfrVi5B3saogeKCRQzYMeTJfdgkSlAFVOGZivrzeBgHpOlgcM-Obzvi5Em7_94MG6mHL5anbMpiVHqo1uOdVlURacYtP-o2qfROHuMd05OH0xhx8BTIIWR_m8DInEYPu4psuMPSckaYa_j2Hu0Ozgs_t6qEmMjndWpjmpqSvkt4JD-7LtzdN08jEgcJZ0QxkK7HUfFcI7bqTszHv2hZxYH24Q-Knrc7bmdXmqNKt60y3IOnTdEzpwdkWv49TAjpT2B-FGX35PyCqYeckWdZZog9M2wUcQh5G6UZHCybNt0aleXCAy2vX8XaTpUKot27ntPU18yRdpLzVQFKJDdjkpjNtE5LctheCK8WVJPPexz5H_sEydiw0FHtq3zuqPDlDE9w9HzKE37tskztwHR2QF54QmaEh7r8Ts9OUQQCqCyMekinrftjKCcSB75RqkhNLRInDgFO4nsK09m11u-h0MTR8Hq1zY-YDj8Q6TP1tsRoJnJMHl_CjOM5O4w0ktf6fOrzgkFQNCdyII9z6mFBHtyuJAQ0A7YhRIIqLDyzmMgHK7-2jFsNhXQY7rGnaKsb6yswNEUq3O26dwO8l38JqgRjjcRtc2p_6slap6S1qj-5GJAlBUrVFEygYLyOZHOW9YzidfyOXjr0UU04VJiSHi7xty0rY6Zo-9d0G9U9SIV1rPtxQncPt0YGlpQDaeq9mMOGoyWfNEk1l04kmX4vFscwq3nyoD8uhugxIse7e2ehKZNqbpvWa-A5ZAkJFUZMnEmxR1SmkcMXZ415MYkUQSilyA_ti2gJuWZAt5wWGnNw4KGx4FZdTZVSX4_ky5_VEO6WokZ1nRPJDr4YJGhtRChtIqBDRmkaEjYlt2CLf8jmEAEhJrRipFaGPpiEC1Sp_kodzMp5NCc8IVWtfUXVTON18Uy8rJ4pgfxNHf5OyggxtsW8v4WWa9XS-CmKqKas-z6r2RGUSlTiLq3hCch5cQzIXHsBP8P0NZ_4oe4trqhtPiCeKkQiiyNklTxJKs5rYr7-h3A4WdDpoWfsX-SEPzIfzm5b6e45t2_VhzXjaBZtGL7MYd83X4lnaqBKvd-lHpheboEMuxObtPDovwkoK_fqZyISHOPFHrNqpFV9Eyb_4AhNJS4r5AbT5PYbkqvpDlrd-GRbGgq_SDkLLyqVcWglzPKP37s4IVscqSK9fHD1qXFuNtyzDUVSlYaLdffmjVgEqYEooSdWk5BpwRytmpZF0aJ5pVz0sp8Ji_XroziL_cjjDMQF82gJjxVjQpmeZZFLOerz75JBuaAUkmy4eYFr_ODvBIr98bf1xxAynbULPkOe3A4_Gh_X_dHp_brOCKDs0YGP3GPu4QWilzJXRG0gbiVWGTRywlWBOnbMEep_i42i093Hns3o7D86GA_YdsNIl33Yrmgk7iuZvIivMyr-JeR6bs9zSrwDovbEN2BIBB9hVRNlttS5_zhbP1rNgl74LM3bpoWd-4KYTwaAsahrTmQy-5beU5LdFf4fT4Yn37yLrv6GBLoE4GZuVKS0XOGelMOKJg_77Nmo5gZWibQ4EhQEaCz91dl0GMqWq9sVAaEfHjConoTHmc8N2GPapJogLXrO3nN5FedTSvgDIrDnFshGTeNsFGjdJZD9yEqzg-1zg5EWQA3g82LHU8aYvRdTgM0DBCW6lRvB39WxqgtKR8E5XgM1um5eXLCKP8CPvOvecl2yUbGzPr3TGWFIKpgag5PnkWIh9-osuky5CHiMuNCPXEkmvcFN04d6AnwXvsYjc-V_dGAEdpBu2EoNjrRv4-4J6D9fMDq98CmPeFNQN3cx42eXcPlVrGDY4oQtdD5j3pm6bA0t1_yOPALgbqgAo8RTMMViQvZrGLEcmuc2uPzQ1cOGUt8m2NPCSgjT7tFp1mBwUqBLgtqduTeTA2LBaHDHmk7Rr4pNSuXBiboANzJFxGYOh2cecbAraH5lwJs2zQeowr5IvHA6s80ylVjcZUzxE0zZsg_-aQDa36U5LLmmHFiZiIDbAr5j1NB1U4HEN8RLneOUwdVbLg_KBcc1Xxh61IpSVmkzLVkzJ17biNqeR4uDHKLMW-mCLftd2GCVDDXgLBiDQrL_7DX0On4E3p9Ug-aMIT4VIIZznL6hkMP8E8fPExt1ntdk-gDnUcpTRXyNb7faT5VPIKdphu7otQn5bA4mE0fw2q5ahahFBJFPYgrdjLRLnM67uKbnYbmjn_GWACzsR4Yze_88W6K-69aNI451RfYF_7PXTBxhnC20kN6uLMQ4jHQeIZbRzTfXWm6jQ6DIncYu4TgQy0iCqWox2KPtqZudGTQ3fZr0mJ57SMXGjYEfiyWJHWr6Isbz1bZ4FPejEUGDdAVhUa2EoE4ABLi9yE2bLTX4HRCTzrQ-H1grJMbhZag50qT2gxTdB-Vpqwm6O1OcCQREAup9zJdrnKKaz4j76bwNhmwZQPvD7TRFSjDMJ99mxfJcCH6urXdyEXR5mI2olov_3TA6mA",
+      "http://localhost:3001/?m=fractals&v=0&data=XQAAAAJZSgAAAAAAAABA",
     description:
       'The <Specialization name="Daredevil" text="Power Daredevil"/> has great sustained DPS, great burst on stacked trash mobs, good single target burst, brings excellent crowd control and offers <Effect name="Stealth"/>, which paired with top tier mobility thanks to <Skill id="13025"/>, <Skill id="13002"/> and <Skill id="13064"/> can enable fast skips in T4s. <Specialization name="Daredevil"/> has a very simplistic rotation, which makes it fairly easy to play, but due to initiative and energy management, <Specialization name="Daredevil"/> becomes quite hard to master. \n\nIn fractals <Specialization name="Daredevil" text="Power Daredevil"/>  does have some drawbacks:\n\n1. First reason is <Trait id="1268"/>, which forces <Specialization name="Daredevil"/> to constantly flank to crit cap, unless you adjust your gear (with the current setup this isn\'t required if you run <Skill name="Signet of Agility"/>).\n2. While being a very strong build on a lot of T4s, <Specialization name="Daredevil" text="Power Daredevil"/> struggles to keep up with other power builds on CMs and it is reccomended to play <BuildLink build="Condi Specter" specialization="Specter"/> instead.\n3. Because of <Trait id="2047"/>, you may be pushing your teammates on fractals with <Instability name="Social Awkwardness"/> instability into deadly zones.\n\nThe build benefits from slaying potions such as <Item id="50082"/> and <Item name="Impact" type="Sigil"/>.\n\n|                                           |                                                                                           |\n| ----------------------------------------- | ----------------------------------------------------------------------------------------- |\n| <Trait id="1702" size="big" disableText/> | Critical Strikes trait. Heals you with % of damage dealt, useful if you can\'t stay alive. |\n| <Trait id="2023" size="big" disableText/> | Daredevil trait. Healing and condition cleanse on evade.                                  |\n| <Trait id="1964" size="big" disableText/> | Daredevil trait. Changes dodge to a dash, increasing your mobility. Also condi cleanses and grants <Boon name="Swiftness"/> |\n\nIf no one in your party can boonrip when the <Instability name="No Pain, No Gain"/> instability is present you can swap Deadly Arts for the Trickery line with the following traits:\n',
     character:
@@ -29,15 +31,31 @@ export default async function getBuild(req: NextRequest) {
   }
 
   const buildid = req.nextUrl.searchParams.get("buildid") || "";
+  if (buildid.length === 0) {
+    return new Response("Missing buildid", { status: 400 });
+  }
 
-  // @ts-ignore
-  const build = BUILDS[buildid];
+  const { Item: build } = await client.send(
+    new GetItemCommand({
+      TableName: process.env.TABLE_NAME,
+      Key: {
+        id: { S: buildid },
+      },
+    })
+  );
+
   if (!build) {
     return new Response("Build not found", { status: 404 });
   }
 
   const res = new Response(
-    JSON.stringify({ ...build, character: JSON.parse(build.character) }),
+    JSON.stringify({
+      name: build.name.S,
+      mdx: build.mdx.S,
+      chatcode: build.chatcode.S,
+      timestamp: parseInt(build.timestamp.N || "-1", 10),
+      character: JSON.parse(build.character.S || "{}"),
+    }),
     {
       status: 200,
       headers: { "Content-Type": "application/json" },
