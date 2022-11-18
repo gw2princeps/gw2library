@@ -35,7 +35,7 @@ export const authOptions = {
       userinfo: {
         request: (context) => {
           console.log(context);
-          return {};
+          return { from: "userinfo", context };
         },
       },
 
@@ -45,7 +45,7 @@ export const authOptions = {
       profile(profile, tokens) {
         console.log(`Profile: ${profile}`);
         console.log(`Tokens: ${tokens}`);
-        return { id: JSON.stringify(tokens) };
+        return { from: "profile", id: JSON.stringify(tokens) };
       },
     },
   ],
@@ -55,7 +55,7 @@ export const authOptions = {
       if (account) console.log(`Signin-Account: ${account}`);
       if (profile) console.log(`Signin-Profile: ${profile}`);
       if (email) console.log(`Signin-Email: ${email}`);
-      if (credentials) console.log(`Signin Credentials: ${credentials}`);
+      if (credentials) console.log(`Signin-Credentials: ${credentials}`);
       return true;
     },
     async redirect({ url, baseUrl }) {
