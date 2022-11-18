@@ -37,7 +37,7 @@ export const authOptions = {
           const token = context.tokens.access_token;
 
           const profile = JSON.parse(atob(token.split(".")[1]));
-          return profile;
+          return { id: profile.sub, profile };
         },
       },
 
