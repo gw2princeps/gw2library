@@ -34,8 +34,10 @@ export const authOptions = {
 
       userinfo: {
         request: (context) => {
-          console.log(context);
-          return { from: "userinfo", context };
+          const token = context.tokens.access_token;
+
+          const profile = JSON.parse(atob(token.split(".")[1]));
+          return profile;
         },
       },
 
@@ -59,14 +61,14 @@ export const authOptions = {
       return true;
     },
     async redirect({ url, baseUrl }) {
-      console.log(`Redirect: ${url} ${baseUrl}`);
       return baseUrl;
     },
     async session({ session, user, token }) {
       if (session) console.log(`S-Session: ${JSON.stringify(session)}`);
       if (user) console.log(`S-User: ${JSON.stringify(user)}`);
       if (token) console.log(`S-Token: ${JSON.stringify(token)}`);
-      return session;
+
+      return { ...session, user: { ...user, hello: "fromUser" } };
     },
     async jwt({ token, user, account, profile, isNewUser }) {
       if (token) console.log(`JWT-Token: ${JSON.stringify(token)}`);
