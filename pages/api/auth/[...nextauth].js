@@ -41,7 +41,7 @@ export const authOptions = {
 
       profile(profile) {
         console.log(`Profile: ${profile}`);
-        return {};
+        return { id: "somethingID" };
       },
     },
   ],
