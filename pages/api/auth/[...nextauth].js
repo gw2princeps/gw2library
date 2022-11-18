@@ -16,7 +16,7 @@ export const authOptions = {
       authorization: {
         url: "https://gw2auth.com/oauth2/authorize",
         params: {
-          scope: "gw2auth:verified",
+          scope: "gw2:account gw2auth:verified",
           redirect_uri: `${process.env.NEXT_PUBLIC_URL}/api/auth/callback/gw2auth`,
         },
       },
@@ -30,6 +30,10 @@ export const authOptions = {
       },
       idToken: false,
       issuer: "https://gw2auth.com",
+
+      userinfo: {
+        request: () => {},
+      },
 
       clientId: process.env.GW2AUTH_CLIENT_ID,
       clientSecret: process.env.GW2AUTH_SECRET,
