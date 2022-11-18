@@ -65,5 +65,6 @@ export const authOptions = {
       return token;
     },
   },
+  debug: true,
 };
 export default NextAuth(authOptions);
