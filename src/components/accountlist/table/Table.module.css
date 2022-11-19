@@ -1,0 +1,24 @@
+.bigIcon {
+  font-size: 1.2rem;
+  margin-right: 0.25rem;
+}
+
+.table {
+  width: 100%;
+}
+
+.tableloading {
+  height: 500px;
+}
+
+.table tr {
+  min-height: 40px;
+}
+
+.table tr td:last-of-type {
+  text-align: right;
+}
+
+.table tr td {
+  vertical-align: middle;
+}

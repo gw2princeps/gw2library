@@ -34,8 +34,6 @@ const getChoices = (major: number[][], trait: number[]) => {
 };
 
 const getBuildmeta = async (character: Character): Promise<BuildLinkMeta> => {
-  console.log(character);
-
   const specializations = character.traits.lines;
   const traits = character.traits.selection;
 

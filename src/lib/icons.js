@@ -11,6 +11,9 @@ import {
   Error,
   User,
   LogOut,
+  More,
+  Edit,
+  Delete,
 } from "@blueprintjs/icons/lib/esm/generated/16px/paths";
 import {
   Home as Home20,
@@ -38,6 +41,9 @@ export const IconSvgPaths16 = {
   Error,
   User,
   LogOut,
+  More,
+  Edit,
+  Delete,
 };
 
 export const IconSvgPaths20 = {

@@ -1,0 +1,7 @@
+.menu > a {
+  color: inherit !important;
+}
+
+.menu > a:hover {
+  text-decoration: none !important;
+}

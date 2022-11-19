@@ -7,6 +7,8 @@ import { getBuildmeta } from "src/utils/chatcodes";
 import { client } from "src/utils/dbclient";
 import { v4 as uuidv4 } from "uuid";
 import { authOptions } from "../auth/[...nextauth]";
+import { marshall } from "@aws-sdk/util-dynamodb";
+import { Character } from "src/types/Build";
 
 export const config = {
   runtime: "nodejs",
@@ -37,8 +39,9 @@ export default async function handler(
   }
 
   let chatcode: string | false = "";
+  let character: Character;
   try {
-    const character =
+    character =
       typeof build.character === "string"
         ? JSON.parse(build.character)
         : build.character;
@@ -55,16 +58,15 @@ export default async function handler(
   const item = await client.send(
     new PutItemCommand({
       TableName: process.env.TABLE_NAME,
-      Item: {
-        id: { S: id },
-        name: { S: build.name },
-        character: { S: build.character },
-        description: { S: build.description },
-        chatcode: { S: chatcode || "" },
-        mdx: { S: converted.code },
-        timestamp: { N: Date.now().toString() },
-        creator: { S: session.user?.sub },
-      },
+      Item: marshall({
+        ...build,
+        id,
+        chatcode,
+        timestamp: Date.now(),
+        creator: session.user?.sub,
+        mdx: converted.code,
+        character,
+      }),
     })
   );
 
