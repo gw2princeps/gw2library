@@ -1,0 +1,12 @@
+.editor {
+  margin-top: 1rem;
+  border: 1px solid rgb(54, 53, 53);
+  padding: 1px;
+}
+
+.root a {
+  color: inherit !important;
+}
+.root a:hover {
+  text-decoration: none !important;
+}
