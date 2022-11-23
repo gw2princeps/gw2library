@@ -47,9 +47,6 @@ export default async function handler(
     return res.status(500).json({ error: "Internal server error" });
   }
 
-  // wait 2sec
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-
   if (data?.Count || 0 > 0) {
     const items =
       data.Items?.map((item) => unmarshall(item, { wrapNumbers: false })) || [];

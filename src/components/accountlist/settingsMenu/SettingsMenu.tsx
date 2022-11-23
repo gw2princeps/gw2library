@@ -2,15 +2,24 @@ import { Button, Menu, MenuDivider, MenuItem } from "@blueprintjs/core";
 import { Popover2 } from "@blueprintjs/popover2";
 import Link from "next/link";
 import React from "react";
+import { useSWRConfig } from "swr";
+import { TabledBuild } from "../table/Table";
 import classes from "./SettingsMenu.module.css";
 
-const SettingsMenu = ({ id }: { id: string }) => {
+const SettingsMenu = ({ id, data }: { id: string; data: TabledBuild[] }) => {
+  const { mutate } = useSWRConfig();
+
   const deleteBuild = () => {
-    fetch(`/api/builds/delete/${id}`, {
-      method: "DELETE",
-    }).then((res) => {
-      console.log(res);
-    });
+    mutate(
+      "/api/account/list",
+      async () => {
+        await fetch(`/api/builds/delete/${id}`, {
+          method: "DELETE",
+        });
+        return data.filter((build) => build.id !== id);
+      },
+      { optimisticData: data.filter((build) => build.id !== id) }
+    );
   };
 
   return (

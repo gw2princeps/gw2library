@@ -1,5 +1,4 @@
 import { Button, Classes, HTMLTable, NonIdealState } from "@blueprintjs/core";
-import { Popover2 } from "@blueprintjs/popover2";
 import { Profession } from "@discretize/gw2-ui-new";
 import Link from "next/link";
 import React from "react";
@@ -10,11 +9,10 @@ import classes from "./Table.module.css";
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
+export type TabledBuild = Build & { id: string };
+
 const Table = () => {
-  const { data, error } = useSWR<(Build & { id: string })[]>(
-    "/api/account/list",
-    fetcher
-  );
+  const { data, error } = useSWR<TabledBuild[]>("/api/account/list", fetcher);
   const loading = !data;
 
   console.log(`State: ${loading} ${error} ${data}`);
@@ -70,7 +68,7 @@ const Table = () => {
             </td>
             <td>{new Date(build.timestamp).toLocaleString()}</td>
             <td>
-              <SettingsMenu id={build.id} />
+              <SettingsMenu id={build.id} data={data} />
             </td>
           </tr>
         ))}
