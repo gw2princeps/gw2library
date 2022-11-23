@@ -6,7 +6,17 @@ import classes from "@/styles/Layout.module.css";
 import React from "react";
 import { useDarkMode, useIsClient } from "usehooks-ts";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout({
+  children,
+  widescreen = false,
+  hideFooter = false,
+  currentPageHeadline = "",
+}: {
+  children: React.ReactNode;
+  widescreen?: boolean;
+  hideFooter?: boolean;
+  currentPageHeadline?: string;
+}) {
   const { isDarkMode } = useDarkMode(true);
   const isClient = useIsClient();
   const [rootClasses, setRootClasses] = React.useState<string>(Classes.DARK);
@@ -28,7 +38,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className={rootClasses}>
       <div className={classes.wrapper}>
-        <div className={classes.layout}>
+        <div
+          className={`${classes.layout} ${
+            widescreen ? classes.widescreen : ""
+          } `}
+        >
           <Head>
             <title>GW2 Library</title>
             <meta
@@ -50,9 +64,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
             <link rel="icon" href="/favicon.ico" />
           </Head>
-          <Navbar />
+          <Navbar headline={currentPageHeadline} />
           <main className={classes.main}>{children}</main>
-          <Footer />
+
+          {!hideFooter && <Footer />}
         </div>
       </div>
     </div>

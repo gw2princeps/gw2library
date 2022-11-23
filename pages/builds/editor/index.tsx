@@ -1,7 +1,6 @@
-import { Spinner } from "@discretize/gw2-ui-new";
+import Layout from "@/components/Layout";
 import dynamic from "next/dynamic";
-import React, { Suspense } from "react";
-import { ErrorBoundary } from "react-error-boundary";
+import React, { ReactElement } from "react";
 
 export default function Page() {
   const [Editor, setEditor] = React.useState<React.ComponentType<any> | null>(
@@ -20,3 +19,7 @@ export default function Page() {
 
   return <>{Editor && <Editor />}</>;
 }
+
+Page.getLayout = function getLayout(page: ReactElement) {
+  return <Layout widescreen>{page}</Layout>;
+};

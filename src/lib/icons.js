@@ -14,6 +14,7 @@ import {
   More,
   Edit,
   Delete,
+  EyeOpen,
 } from "@blueprintjs/icons/lib/esm/generated/16px/paths";
 import {
   Home as Home20,
@@ -21,6 +22,7 @@ import {
   Flash as Flash20,
   Moon as Moon20,
   Error as Error20,
+  EyeOpen as EyeOpen20,
 } from "@blueprintjs/icons/lib/esm/generated/20px/paths";
 import { pascalCase } from "change-case";
 
@@ -44,6 +46,7 @@ export const IconSvgPaths16 = {
   More,
   Edit,
   Delete,
+  EyeOpen,
 };
 
 export const IconSvgPaths20 = {
@@ -52,4 +55,5 @@ export const IconSvgPaths20 = {
   Flash: Flash20,
   Moon: Moon20,
   Error: Error20,
+  EyeOpen: EyeOpen20,
 };

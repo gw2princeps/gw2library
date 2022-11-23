@@ -15,7 +15,7 @@ import LoginButton from "@/components/LoginButton";
 import { useSession } from "next-auth/react";
 import AccountButton from "./AccountButton";
 
-const NavBar = function NavBar() {
+const NavBar = function NavBar({ headline }: { headline: string }) {
   const [icon, setIcon] = React.useState<IconName>("moon");
 
   const { data: session } = useSession();
@@ -38,6 +38,8 @@ const NavBar = function NavBar() {
           <NavbarHeading>
             <Link href="/">GW2Library</Link>
           </NavbarHeading>
+
+          {headline && ` - ${headline}`}
         </NavbarGroup>
       )}
       <NavbarGroup align={Alignment.RIGHT}>

@@ -1,0 +1,14 @@
+:global(.bp4-dark) .root {
+  --rdc-font-color: #dddddd;
+  --rdc-character-background-color: #2f343c;
+  --rdc-color-primary: #2d72d2;
+  --rdc-color-border: rgb(30, 33, 36);
+}
+
+.root {
+  --rdc-font-family: Muli;
+  --rdc-font-color: inherit;
+  --rdc-character-background-color: #f6f7f9;
+  --rdc-color-primary: #2d72d2;
+  --rdc-color-border: #abb3bf;
+}

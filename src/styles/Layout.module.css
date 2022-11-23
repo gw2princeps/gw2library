@@ -1,5 +1,5 @@
 .main {
-  min-height: 100vh;
+  min-height: calc(100vh - 50px - 24px);
 }
 
 .layout {
@@ -8,6 +8,10 @@
   max-width: 1100px;
   padding: 8px;
 }
+.widescreen {
+  max-width: inherit;
+}
+
 :global(.bp4-dark) .wrapper {
   background-color: #404854;
 }

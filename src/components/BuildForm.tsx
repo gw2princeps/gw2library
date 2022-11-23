@@ -1,12 +1,23 @@
-import { Button, FormGroup, InputGroup, TextArea } from "@blueprintjs/core";
-import React from "react";
 import classes from "@/styles/AddBuildForm.module.css";
-import { AppToaster } from "src/utils/toaster";
-import Link from "next/link";
+import {
+  FormGroup,
+  InputGroup,
+  NonIdealState,
+  TextArea,
+} from "@blueprintjs/core";
+import dynamic from "next/dynamic";
+import React from "react";
+import Character from "./character/Character";
+
+import "@discretize/gw2-ui-new/dist/default_style.css";
+import "@discretize/gw2-ui-new/dist/index.css";
+import "@discretize/react-discretize-components/dist/index.css";
+import "@discretize/typeface-menomonia";
 
 const validateOptimizerSettings = (settings: string) =>
   settings.length == 0 ||
   settings.startsWith("https://optimizer.discretize.eu/?s=");
+
 const validateCharacter = (character: string) => {
   if (character.length == 0) return true;
   try {
@@ -17,61 +28,51 @@ const validateCharacter = (character: string) => {
   }
 };
 
-const AddBuildForm = function AddBuildForm() {
+const DynamicPreview = dynamic(() => import("./editor/Preview"), {
+  ssr: false,
+});
+
+export interface BottomElement {
+  BottomElement: (
+    formContent: {
+      name: string;
+      optimizerSettingsLink: string;
+      description: string;
+      character: string;
+    },
+    reset: () => void
+  ) => JSX.Element;
+}
+
+const BuildForm = ({ BottomElement }: BottomElement) => {
   const [name, setName] = React.useState("");
   const [optimizerSettingsLink, setOptimizerSettingsLink] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [character, setCharacter] = React.useState("");
-  const [lastUploaded, setLastUploaded] = React.useState("");
 
-  const [submitting, setSubmitting] = React.useState(false);
+  const currState = {
+    name,
+    optimizerSettingsLink,
+    description,
+    character,
+  };
 
   const getIntent = (value: string, validator: (value: string) => boolean) => {
     if (value.length == 0) return "none";
     if (validator(value)) return "success";
     return "danger";
   };
-
-  const submit = () => {
-    setSubmitting(true);
-    fetch("/api/builds/add", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        optimizerSettingsLink,
-        description,
-        character,
-      }),
-    }).then(async (res) => {
-      setSubmitting(false);
-      const json = await res.json();
-      if (res.status == 201) {
-        setLastUploaded(json.id);
-        setName("");
-        setOptimizerSettingsLink("");
-        setDescription("");
-        setCharacter("");
-        AppToaster?.show({
-          message: "Upload successful.",
-          intent: "success",
-          isCloseButtonShown: true,
-        });
-      } else {
-        AppToaster?.show({
-          message: `Upload failed: ${json.error}`,
-          intent: "danger",
-          isCloseButtonShown: true,
-        });
-      }
-    });
+  const reset = () => {
+    setName("");
+    setOptimizerSettingsLink("");
+    setDescription("");
+    setCharacter("");
   };
 
   return (
-    <>
+    <div className={classes.root}>
       <form className={classes.form}>
+        <h1>Settings</h1>
         <FormGroup
           label="Build name"
           labelFor="buildname-input"
@@ -133,22 +134,25 @@ const AddBuildForm = function AddBuildForm() {
           />
         </FormGroup>
 
-        <Button
-          intent={"primary"}
-          text="Upload"
-          icon="upload"
-          onClick={submit}
-          loading={submitting}
-        />
-
-        {lastUploaded && lastUploaded.length > 0 && (
-          <Link href={`/builds/${lastUploaded}`}>
-            <Button intent={"success"} text="Go to build" icon="upload" />
-          </Link>
-        )}
+        {BottomElement(currState, reset)}
       </form>
-    </>
+
+      <div className={classes.preview}>
+        <h1>Preview</h1>
+        {!character && !description && (
+          <NonIdealState
+            icon="eye-open"
+            title="No preview available"
+            description="Fill in the form to see a preview of your build."
+          />
+        )}
+        {character && validateCharacter(character) && (
+          <Character character={JSON.parse(character)} />
+        )}
+        <DynamicPreview mdx={description} />
+      </div>
+    </div>
   );
 };
 
-export default AddBuildForm;
+export default React.memo(BuildForm);

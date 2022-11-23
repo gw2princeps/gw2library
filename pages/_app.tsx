@@ -11,15 +11,25 @@ import "typeface-raleway";
 import Layout from "@/components/Layout";
 import { FocusStyleManager } from "@blueprintjs/core";
 import { SessionProvider } from "next-auth/react";
+import { ReactElement, ReactNode } from "react";
+import { NextPage } from "next";
 
 FocusStyleManager.onlyShowFocusOnTabs();
 
-export default function App({ Component, pageProps }: AppProps) {
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout ?? ((page) => <Layout>{page}</Layout>);
+
   return (
     <SessionProvider session={pageProps.session}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      {getLayout(<Component {...pageProps} />)}
     </SessionProvider>
   );
 }

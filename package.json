@@ -17,7 +17,7 @@
     "@aws-sdk/util-dynamodb": "^3.214.0",
     "@blueprintjs/core": "^4.12.0",
     "@blueprintjs/popover2": "^1.10.1",
-    "@discretize/gw2-ui-new": "^0.1.1",
+    "@discretize/gw2-ui-new": "^0.1.2",
     "@discretize/react-discretize-components": "^2.5.0",
     "@discretize/remark-mdx-gw2ui": "^0.0.3",
     "@discretize/typeface-menomonia": "^0.1.3",

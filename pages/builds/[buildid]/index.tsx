@@ -1,18 +1,17 @@
 import components from "@/components/components";
 import Traits from "@/components/Traits";
 import classes from "@/styles/BuildPage.module.css";
-import { Classes, H2, Switch } from "@blueprintjs/core";
+import { Classes, H2 } from "@blueprintjs/core";
 import { APILanguageProvider, Error } from "@discretize/gw2-ui-new";
-import { Character } from "@discretize/react-discretize-components";
 import { run as importedRun } from "@mdx-js/mdx";
 import { MDXProvider } from "@mdx-js/react";
 import { GetStaticProps } from "next";
 import { Fragment, useEffect, useState } from "react";
 import * as runtime from "react/jsx-runtime";
 import { Build } from "src/types/Build";
-import getProfessionImage from "src/utils/ProfessionImages";
 
 import BuildHeader from "@/components/BuildHeader";
+import Character from "@/components/character/Character";
 import TopBar from "@/components/TopBar";
 import "@discretize/gw2-ui-new/dist/default_style.css";
 import "@discretize/gw2-ui-new/dist/index.css";
@@ -86,13 +85,7 @@ export default function Page({
         )}
         {character ? (
           <>
-            <Character
-              {...character}
-              // @ts-ignore
-              imageElement={getProfessionImage(spec)}
-              // @ts-ignore
-              switchElement={Switch}
-            />
+            <Character character={character} />
 
             <H2>Traits</H2>
 

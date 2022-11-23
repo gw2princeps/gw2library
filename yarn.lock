@@ -809,10 +809,20 @@
     cookie "^0.5.0"
     esbuild "^0.15.3"
 
-"@discretize/gw2-ui-new@^0.1.0", "@discretize/gw2-ui-new@^0.1.1":
+"@discretize/gw2-ui-new@^0.1.0":
   version "0.1.1"
   resolved "https://registry.npmjs.org/@discretize/gw2-ui-new/-/gw2-ui-new-0.1.1.tgz"
   integrity sha512-LmGLzhP1STZ3fpB4jJvZ74dRK3k0hDWsdMfxhG2e6KhgBXS8odVJ/g1GYm9SaqOYFmmrWwrz05oRxijqItm8FQ==
+  dependencies:
+    "@discretize/typeface-menomonia" "^0.1.3"
+    clsx "^1.1.1"
+    react "^18.2.0"
+    react-dom "^18.2.0"
+
+"@discretize/gw2-ui-new@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@discretize/gw2-ui-new/-/gw2-ui-new-0.1.2.tgz#58fa81bee70003a73a046d9b456531ab6e36073f"
+  integrity sha512-FlGDih82RIKC1Q3Z6BOiRCGSNwUX6AI/iDQpHSkaX2PCssIF/luWa9fd2D/h2/KLgc8fM4g6Kfz3bvdiMWdt/A==
   dependencies:
     "@discretize/typeface-menomonia" "^0.1.3"
     clsx "^1.1.1"
