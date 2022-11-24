@@ -63,6 +63,8 @@ export default async function handler(
         ":description": { S: build.description },
         ":chatcode": { S: chatcode || "" },
         ":mdx": { S: converted.code },
+        ":optimizerSettingsLink": { S: build.optimizerSettingsLink },
+        ":gw2skillsLink": { S: build.gw2skillsLink },
       },
       Key: {
         id: { S: buildid },
@@ -73,9 +75,11 @@ export default async function handler(
         "#description": "description",
         "#chatcode": "chatcode",
         "#mdx": "mdx",
+        "#optimizerSettingsLink": "optimizerSettingsLink",
+        "#gw2skillsLink": "gw2skillsLink",
       },
       UpdateExpression:
-        "SET #name = :name, #description = :description, #character = :character, #chatcode = :chatcode, #mdx = :mdx",
+        "SET #name = :name, #description = :description, #character = :character, #chatcode = :chatcode, #mdx = :mdx, #optimizerSettingsLink = :optimizerSettingsLink, #gw2skillsLink = :gw2skillsLink",
     })
   );
 

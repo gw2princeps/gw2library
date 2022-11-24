@@ -9,6 +9,7 @@ export interface Build {
   character: Character;
   chatcode: string;
   optimizerSettingsLink?: string;
+  gw2skillsLink?: string;
   timestamp: string;
 }
 

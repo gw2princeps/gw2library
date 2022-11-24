@@ -34,13 +34,8 @@ export default async function getBuild(
     return res.status(404).json({ error: "Build not found" });
   }
 
-  const { name, mdx, chatcode, timestamp, character, description } = unmarshall(
-    build,
-    {
-      wrapNumbers: false,
-    }
-  );
-  return res
-    .status(200)
-    .json({ name, mdx, chatcode, timestamp, character, description });
+  const object = unmarshall(build, {
+    wrapNumbers: false,
+  });
+  return res.status(200).json(object);
 }

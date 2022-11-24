@@ -47,6 +47,7 @@ export default function Page({
   optimizerSettingsLink,
   timestamp,
   status,
+  gw2skillsLink,
 }: Build & BuildPageProps) {
   const [mdxModule, setMdxModule] = useState();
 
@@ -78,7 +79,11 @@ export default function Page({
     <APILanguageProvider value="en">
       <section className={`buildsection ${classes.root}`}>
         <BuildHeader specialization={spec} timestamp={timestamp} name={name} />
-        <TopBar optimizerLink={optimizerSettingsLink} chatcode={chatcode} />
+        <TopBar
+          optimizerLink={optimizerSettingsLink}
+          gw2skillsLink={gw2skillsLink}
+          chatcode={chatcode}
+        />
 
         {status === "404" && (
           <Error code={404} message="Build not found" name="404" />

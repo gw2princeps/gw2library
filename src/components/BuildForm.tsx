@@ -14,11 +14,11 @@ import "@discretize/gw2-ui-new/dist/index.css";
 import "@discretize/react-discretize-components/dist/index.css";
 import "@discretize/typeface-menomonia";
 
-const validateOptimizerSettings = (settings: string) =>
+export const validateOptimizerSettings = (settings: string) =>
   settings.length == 0 ||
   settings.startsWith("https://optimizer.discretize.eu/?s=");
 
-const validateCharacter = (character: string) => {
+export const validateCharacter = (character: string) => {
   if (character.length == 0) return true;
   try {
     const char = JSON.parse(character);
@@ -28,6 +28,12 @@ const validateCharacter = (character: string) => {
   }
 };
 
+export const validateGw2SkillsLink = (link: string) => {
+  if (link.length == 0) return true;
+  // http://en.gw2skills.net/editor/?PWFBk2l7lFwuYUsE2Ie2TrtPA-zRRYjhpG94zIVpQ6qA7OL9ftBA-e
+  return link.includes(".gw2skills.net/editor/?");
+};
+
 const DynamicPreview = dynamic(() => import("./editor/Preview"), {
   ssr: false,
 });
@@ -35,6 +41,7 @@ const DynamicPreview = dynamic(() => import("./editor/Preview"), {
 export type FormContent = {
   name: string;
   optimizerSettingsLink: string;
+  gw2skillsLink: string;
   description: string;
   character: string;
 };
@@ -51,11 +58,15 @@ const BuildForm = ({
     description: "",
     name: "",
     optimizerSettingsLink: "",
+    gw2skillsLink: "",
   },
 }: BottomElement) => {
   const [name, setName] = React.useState(initialData.name || "");
   const [optimizerSettingsLink, setOptimizerSettingsLink] = React.useState(
     initialData.optimizerSettingsLink || ""
+  );
+  const [gw2skillsLink, setGw2skillsLink] = React.useState(
+    initialData.gw2skillsLink || ""
   );
   const [description, setDescription] = React.useState(
     initialData.description || ""
@@ -67,6 +78,7 @@ const BuildForm = ({
     optimizerSettingsLink,
     description,
     character,
+    gw2skillsLink,
   };
 
   const getIntent = (value: string, validator: (value: string) => boolean) => {
@@ -113,6 +125,25 @@ const BuildForm = ({
             value={optimizerSettingsLink}
             onChange={(e) => setOptimizerSettingsLink(e.target.value)}
             intent={getIntent(optimizerSettingsLink, validateOptimizerSettings)}
+          />
+        </FormGroup>
+
+        <FormGroup
+          label="GW2Skills.net link"
+          labelFor="gw2skills-input"
+          labelInfo="(copy-paste)"
+          helperText={
+            validateGw2SkillsLink(gw2skillsLink)
+              ? "Share your build on GW2Skills.net and copy the link here"
+              : "Invalid link"
+          }
+        >
+          <InputGroup
+            id="gw2skills-input"
+            placeholder="GW2Skills.net link"
+            value={gw2skillsLink}
+            onChange={(e) => setGw2skillsLink(e.target.value)}
+            intent={getIntent(gw2skillsLink, validateGw2SkillsLink)}
           />
         </FormGroup>
 

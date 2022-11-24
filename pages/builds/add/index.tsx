@@ -1,4 +1,9 @@
-import BuildForm from "@/components/BuildForm";
+import BuildForm, {
+  FormContent,
+  validateCharacter,
+  validateGw2SkillsLink,
+  validateOptimizerSettings,
+} from "@/components/BuildForm";
 import Layout from "@/components/Layout";
 import Unautorized from "@/components/Unautorized";
 import { Button } from "@blueprintjs/core";
@@ -11,12 +16,7 @@ function SubmitButton({
   formContent,
   reset,
 }: {
-  formContent: {
-    name: string;
-    optimizerSettingsLink: string;
-    description: string;
-    character: string;
-  };
+  formContent: FormContent;
   reset: () => void;
 }): JSX.Element {
   const [lastUploaded, setLastUploaded] = React.useState("");
@@ -24,6 +24,18 @@ function SubmitButton({
   const [submitting, setSubmitting] = React.useState(false);
 
   const submit = () => {
+    if (
+      !validateCharacter(formContent.character) ||
+      !validateOptimizerSettings(formContent.optimizerSettingsLink) ||
+      !validateGw2SkillsLink(formContent.gw2skillsLink)
+    ) {
+      AppToaster?.show({
+        message: "Invalid character or optimizer settings",
+        intent: "danger",
+      });
+      return;
+    }
+
     setSubmitting(true);
     fetch("/api/builds/add", {
       method: "PUT",

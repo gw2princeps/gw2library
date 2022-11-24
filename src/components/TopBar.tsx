@@ -8,9 +8,11 @@ import { AppToaster } from "src/utils/toaster";
 
 const TopBar = ({
   optimizerLink,
+  gw2skillsLink,
   chatcode,
 }: {
   optimizerLink?: string;
+  gw2skillsLink?: string;
   chatcode: string;
 }) => {
   const [copied, setCopied] = React.useState(false);
@@ -27,6 +29,15 @@ const TopBar = ({
   };
   return (
     <ButtonGroup large className={classes.buttongroup}>
+      {gw2skillsLink ? (
+        <a href={gw2skillsLink}>
+          <Button>
+            <span className={classes.optimizerButton}>
+              <Text>GW2Skills.net</Text>
+            </span>
+          </Button>
+        </a>
+      ) : undefined}
       {optimizerLink ? (
         <a href={optimizerLink}>
           <Button>
