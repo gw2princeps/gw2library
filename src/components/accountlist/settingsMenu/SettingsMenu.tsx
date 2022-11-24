@@ -32,7 +32,9 @@ const SettingsMenu = ({ id, data }: { id: string; data: TabledBuild[] }) => {
             <Link href={`/builds/${id}`}>
               <MenuItem text="Show" icon="home" />
             </Link>
-            <MenuItem text="Edit" icon="edit" />
+            <Link href={`/builds/edit/${id}`}>
+              <MenuItem text="Edit" icon="edit" />
+            </Link>
             <MenuDivider />
 
             <MenuItem

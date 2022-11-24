@@ -28,10 +28,6 @@ export default async function handler(
     return res.status(400).json({ error: "Missing required fields" });
   }
 
-  // wait 2
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  console.log("amen");
-
   const buildid = req.query.buildid as string;
   if (buildid.length === 0) {
     return res.status(400).json({ error: "Missing required fields" });

@@ -1,6 +1,4 @@
-import { encode } from "gw2e-chat-codes";
 import { BuildLinkMeta } from "gw2e-chat-codes/build/src/encode/encodeBuildLink";
-import React from "react";
 import { Character } from "src/types/Build";
 import SPECIALIZATIONS from "./specializations.json" assert { type: "json" };
 
@@ -38,11 +36,11 @@ const getBuildmeta = async (character: Character): Promise<BuildLinkMeta> => {
   const traits = character.traits.selection;
 
   const majors = specializations.map((specId) =>
-    reshape(
-      SPECIALIZATIONS.find((spec) => spec.id === specId)?.major_traits || []
-    )
+    reshape([
+      ...(SPECIALIZATIONS.map((a) => a).find((spec) => spec.id === specId)
+        ?.major_traits || []),
+    ])
   );
-  console.log(getChoices(majors[0], traits[0]));
 
   return {
     profession: PROFESSION_IDS.indexOf(character.attributes.profession),

@@ -6,7 +6,7 @@ import { convertMDX } from "src/lambda/index.mjs";
 import { getBuildmeta } from "src/utils/chatcodes";
 import { client } from "src/utils/dbclient";
 import { v4 as uuidv4 } from "uuid";
-import { authOptions } from "../auth/[...nextauth]";
+import { authOptions } from "../../auth/[...nextauth]";
 import { marshall } from "@aws-sdk/util-dynamodb";
 import { Character } from "src/types/Build";
 

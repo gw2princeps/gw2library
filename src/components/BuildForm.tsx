@@ -32,23 +32,35 @@ const DynamicPreview = dynamic(() => import("./editor/Preview"), {
   ssr: false,
 });
 
+export type FormContent = {
+  name: string;
+  optimizerSettingsLink: string;
+  description: string;
+  character: string;
+};
+
 export interface BottomElement {
-  BottomElement: (
-    formContent: {
-      name: string;
-      optimizerSettingsLink: string;
-      description: string;
-      character: string;
-    },
-    reset: () => void
-  ) => JSX.Element;
+  BottomElement: (formContent: FormContent, reset: () => void) => JSX.Element;
+  initialData?: FormContent;
 }
 
-const BuildForm = ({ BottomElement }: BottomElement) => {
-  const [name, setName] = React.useState("");
-  const [optimizerSettingsLink, setOptimizerSettingsLink] = React.useState("");
-  const [description, setDescription] = React.useState("");
-  const [character, setCharacter] = React.useState("");
+const BuildForm = ({
+  BottomElement,
+  initialData = {
+    character: "",
+    description: "",
+    name: "",
+    optimizerSettingsLink: "",
+  },
+}: BottomElement) => {
+  const [name, setName] = React.useState(initialData.name || "");
+  const [optimizerSettingsLink, setOptimizerSettingsLink] = React.useState(
+    initialData.optimizerSettingsLink || ""
+  );
+  const [description, setDescription] = React.useState(
+    initialData.description || ""
+  );
+  const [character, setCharacter] = React.useState(initialData.character || "");
 
   const currState = {
     name,
@@ -58,7 +70,7 @@ const BuildForm = ({ BottomElement }: BottomElement) => {
   };
 
   const getIntent = (value: string, validator: (value: string) => boolean) => {
-    if (value.length == 0) return "none";
+    if (value?.length == 0) return "none";
     if (validator(value)) return "success";
     return "danger";
   };
