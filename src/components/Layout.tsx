@@ -62,7 +62,7 @@ export default function Layout({
               content="Create, and share builds with descriptions in seconds"
             />
 
-            <link rel="icon" href="/favicon.ico" />
+            <link rel="icon" href="/logo.svg" />
           </Head>
           <Navbar headline={currentPageHeadline} />
           <main className={classes.main}>{children}</main>
