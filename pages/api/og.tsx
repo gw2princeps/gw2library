@@ -90,7 +90,7 @@ export default async function handler(req: NextRequest) {
   }
 
   const build = await fetch(
-    `https://gw2library.princeps.biz/api/builds/get/${buildid}`
+    `${process.env?.NEXT_PUBLIC_URL}/api/builds/get/${buildid}`
   );
   const buildJson: Build = await build.json();
 
@@ -205,7 +205,7 @@ export default async function handler(req: NextRequest) {
           {buildJson.name}
 
           <div style={{ display: "flex", flexDirection: "row", marginTop: 20 }}>
-            {skillIcons.map((skillIcon, index) => (
+            {skillIcons.map((skillIcon) => (
               <img key={skillIcon} src={skillIcon} width="64" height="64" />
             ))}
           </div>
