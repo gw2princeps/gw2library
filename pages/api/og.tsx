@@ -4,6 +4,7 @@
 import { ImageResponse } from "@vercel/og";
 import { NextRequest } from "next/server";
 import { Build } from "src/types/Build";
+import getProfessionImage from "src/utils/ProfessionImages";
 
 export const config = {
   runtime: "experimental-edge",
@@ -75,6 +76,55 @@ const specializationImages: Record<string, string> = {
     "https://wiki.guildwars2.com/images/c/cd/Virtuoso_tango_icon_200px.png",
 };
 
+const colors: Record<string, string> = {
+  "warrior-main": "#ffd166",
+  "elementalist-main": "#f68a87",
+  "engineer-main": "#d09c59",
+  "guardian-main": "#72c1d9",
+  "mesmer-main": "#b679d5",
+  "necromancer-main": "#52a76f",
+  "ranger-main": "#8cdc82",
+  "revenant-main": "#d16e5a",
+  "thief-main": "#c08f95",
+};
+
+function Logo() {
+  return (
+    <svg
+      version="1.1"
+      id="Capa_1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      x="0px"
+      y="0px"
+      width="50px"
+      height="50px"
+      viewBox="0 0 490 490"
+      xmlSpace="preserve"
+    >
+      <g>
+        <path
+          fill="whitesmoke"
+          d="M483,431.629h-80.975l28.668-8.963c4.753-1.48,8.643-4.723,10.953-9.129c2.31-4.405,2.764-9.448,1.279-14.198
+		L336.088,57.447c-2.438-7.822-9.57-13.077-17.752-13.077c-1.885,0-3.758,0.288-5.56,0.853l-65.677,20.52
+		c-0.63,0.196-1.24,0.426-1.833,0.682v-2.704c0-10.263-8.346-18.613-18.604-18.613h-69.24c-4.392,0-8.426,1.539-11.611,4.094
+		c-3.191-2.555-7.233-4.094-11.633-4.094H64.855c-10.269,0-18.625,8.35-18.625,18.613v367.908H7c-3.866,0-7,3.134-7,7
+		c0,3.866,3.134,7,7,7h476c3.866,0,7-3.134,7-7C490,434.763,486.866,431.629,483,431.629z M429.247,407.037
+		c-0.572,1.092-1.537,1.896-2.725,2.265l-65.67,20.531c-0.448,0.141-0.908,0.211-1.368,0.211c-2.003,0-3.82-1.337-4.418-3.251
+		l-78.76-252.064l74.492-23.267l78.764,252.053C429.932,404.695,429.819,405.946,429.247,407.037z M346.623,138.1l-74.492,23.267
+		l-8.518-27.26l74.49-23.271L346.623,138.1z M251.271,79.108l65.687-20.523c0.452-0.142,0.916-0.214,1.378-0.214
+		c2.02,0,3.781,1.302,4.387,3.247l11.205,35.856l-74.49,23.271l-11.195-35.83C247.484,82.47,248.842,79.866,251.271,79.108z
+		 M341.939,431.629h-96.674v-309.3L341.939,431.629z M152.817,207.605h78.448v19.492h-78.448V207.605z M231.266,193.605h-78.448
+		v-68.511h78.448V193.605z M138.817,143.682H60.23v-18.588h78.587V143.682z M60.23,157.682h78.587v18.599H60.23V157.682z
+		 M152.817,241.097h78.448v190.533h-78.448V241.097z M157.422,59.108h69.24c2.538,0,4.604,2.069,4.604,4.613v47.372h-78.448V63.722
+		C152.817,61.178,154.883,59.108,157.422,59.108z M64.855,59.108h69.322c2.559,0,4.64,2.069,4.64,4.613v47.372H60.23V63.722
+		C60.23,61.178,62.306,59.108,64.855,59.108z M60.23,190.281h78.587v241.349H60.23V190.281z"
+        />
+      </g>
+    </svg>
+  );
+}
+
 const font = fetch(
   new URL(
     "../../node_modules/@discretize/typeface-menomonia/files/menomonia.ttf",
@@ -133,6 +183,12 @@ export default async function handler(req: NextRequest) {
 
   const fontData = await font;
 
+  const professionImage = getProfessionImage(
+    buildJson.character.attributes.specialization
+  );
+  const imageSrc = professionImage.props.children.props.src.src;
+  console.log(JSON.stringify(professionImage));
+  console.log(imageSrc);
   return new ImageResponse(
     (
       <div
@@ -140,62 +196,57 @@ export default async function handler(req: NextRequest) {
           display: "flex",
           fontSize: 60,
           fontFamily: "Menomonia",
-          color: "whitesmoke",
+          color:
+            colors[
+              `${buildJson.character.attributes.profession.toLowerCase()}-main`
+            ],
           background: "#404854",
           width: "100%",
           height: "100%",
-          padding: "0 30px",
+          padding: "20px 30px",
           flexDirection: "column",
           alignItems: "flex-start",
         }}
       >
+        <span
+          style={{
+            position: "absolute",
+            right: 20,
+            top: 20,
+            fontSize: 30,
+            alignItems: "center",
+            color: "whitesmoke",
+          }}
+        >
+          <Logo />
+          GW2Library
+        </span>
         <div
           style={{
             display: "flex",
             flexDirection: "row",
-            justifyContent: "center",
+            justifyContent: "space-between",
             alignItems: "center",
             fontSize: 30,
-            color: "whitesmoke",
             marginBottom: 20,
           }}
         >
-          <svg
-            version="1.1"
-            id="Capa_1"
-            xmlns="http://www.w3.org/2000/svg"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
-            x="0px"
-            y="0px"
-            width="50px"
-            height="50px"
-            viewBox="0 0 490 490"
-            xmlSpace="preserve"
+          <span
+            style={{
+              fontSize: 60,
+              flexGrow: 1,
+            }}
           >
-            <g>
-              <path
-                fill="whitesmoke"
-                d="M483,431.629h-80.975l28.668-8.963c4.753-1.48,8.643-4.723,10.953-9.129c2.31-4.405,2.764-9.448,1.279-14.198
-		L336.088,57.447c-2.438-7.822-9.57-13.077-17.752-13.077c-1.885,0-3.758,0.288-5.56,0.853l-65.677,20.52
-		c-0.63,0.196-1.24,0.426-1.833,0.682v-2.704c0-10.263-8.346-18.613-18.604-18.613h-69.24c-4.392,0-8.426,1.539-11.611,4.094
-		c-3.191-2.555-7.233-4.094-11.633-4.094H64.855c-10.269,0-18.625,8.35-18.625,18.613v367.908H7c-3.866,0-7,3.134-7,7
-		c0,3.866,3.134,7,7,7h476c3.866,0,7-3.134,7-7C490,434.763,486.866,431.629,483,431.629z M429.247,407.037
-		c-0.572,1.092-1.537,1.896-2.725,2.265l-65.67,20.531c-0.448,0.141-0.908,0.211-1.368,0.211c-2.003,0-3.82-1.337-4.418-3.251
-		l-78.76-252.064l74.492-23.267l78.764,252.053C429.932,404.695,429.819,405.946,429.247,407.037z M346.623,138.1l-74.492,23.267
-		l-8.518-27.26l74.49-23.271L346.623,138.1z M251.271,79.108l65.687-20.523c0.452-0.142,0.916-0.214,1.378-0.214
-		c2.02,0,3.781,1.302,4.387,3.247l11.205,35.856l-74.49,23.271l-11.195-35.83C247.484,82.47,248.842,79.866,251.271,79.108z
-		 M341.939,431.629h-96.674v-309.3L341.939,431.629z M152.817,207.605h78.448v19.492h-78.448V207.605z M231.266,193.605h-78.448
-		v-68.511h78.448V193.605z M138.817,143.682H60.23v-18.588h78.587V143.682z M60.23,157.682h78.587v18.599H60.23V157.682z
-		 M152.817,241.097h78.448v190.533h-78.448V241.097z M157.422,59.108h69.24c2.538,0,4.604,2.069,4.604,4.613v47.372h-78.448V63.722
-		C152.817,61.178,154.883,59.108,157.422,59.108z M64.855,59.108h69.322c2.559,0,4.64,2.069,4.64,4.613v47.372H60.23V63.722
-		C60.23,61.178,62.306,59.108,64.855,59.108z M60.23,190.281h78.587v241.349H60.23V190.281z"
-              />
-            </g>
-          </svg>
-
-          <p>GW2Library</p>
-
-          <span style={{ marginLeft: 200, fontSize: 60 }}>
+            <img
+              width={60}
+              height={60}
+              src={
+                specializationImages[
+                  buildJson.character.attributes.specialization.toLowerCase()
+                ]
+              }
+              style={{ marginRight: 20 }}
+            />
             <u>{buildJson.name}</u>
           </span>
         </div>
@@ -206,7 +257,6 @@ export default async function handler(req: NextRequest) {
             flexDirection: "row",
             alignItems: "center",
             fontSize: 30,
-            color: "whitesmoke",
             marginLeft: 150,
           }}
         >
@@ -219,13 +269,9 @@ export default async function handler(req: NextRequest) {
             }}
           >
             <img
-              width="256"
-              height="256"
-              src={
-                specializationImages[
-                  buildJson.character.attributes.specialization.toLowerCase()
-                ]
-              }
+              width="320"
+              height="320"
+              src={`https://gw2library.princeps.biz${imageSrc}`}
             />
             <div
               style={{ display: "flex", flexDirection: "row", marginTop: 20 }}

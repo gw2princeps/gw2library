@@ -8,3 +8,6 @@
 .link {
   text-decoration: none !important;
 }
+.menu li:not(:last-child) {
+  margin-bottom: 4px;
+}

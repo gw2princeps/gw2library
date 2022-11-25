@@ -5,3 +5,7 @@
 .menu > a:hover {
   text-decoration: none !important;
 }
+
+.menu > :not(:last-child) li {
+  margin-bottom: 4px;
+}
