@@ -89,7 +89,7 @@ export default async function handler(req: NextRequest) {
   }
 
   const build = await fetch(
-    `${process.env?.NEXT_PUBLIC_URL}/api/builds/get/${buildid}`
+    `https://gw2library.princeps.biz/api/builds/get/${buildid}`
   );
   const buildJson: Build = await build.json();
 
@@ -114,6 +114,7 @@ export default async function handler(req: NextRequest) {
     })
   );
 
+  console.log(skillIcons);
   const fontData = await font;
 
   return new ImageResponse(
@@ -156,7 +157,7 @@ export default async function handler(req: NextRequest) {
           >
             <g>
               <path
-                fill="currentcolor"
+                fill="whitesmoke"
                 d="M483,431.629h-80.975l28.668-8.963c4.753-1.48,8.643-4.723,10.953-9.129c2.31-4.405,2.764-9.448,1.279-14.198
 		L336.088,57.447c-2.438-7.822-9.57-13.077-17.752-13.077c-1.885,0-3.758,0.288-5.56,0.853l-65.677,20.52
 		c-0.63,0.196-1.24,0.426-1.833,0.682v-2.704c0-10.263-8.346-18.613-18.604-18.613h-69.24c-4.392,0-8.426,1.539-11.611,4.094
@@ -171,7 +172,6 @@ export default async function handler(req: NextRequest) {
 		 M152.817,241.097h78.448v190.533h-78.448V241.097z M157.422,59.108h69.24c2.538,0,4.604,2.069,4.604,4.613v47.372h-78.448V63.722
 		C152.817,61.178,154.883,59.108,157.422,59.108z M64.855,59.108h69.322c2.559,0,4.64,2.069,4.64,4.613v47.372H60.23V63.722
 		C60.23,61.178,62.306,59.108,64.855,59.108z M60.23,190.281h78.587v241.349H60.23V190.281z"
-                style={{ fill: "whitesmoke" }}
               />
             </g>
           </svg>
@@ -203,13 +203,11 @@ export default async function handler(req: NextRequest) {
 
           {buildJson.name}
 
-          {/*}
           <div style={{ display: "flex", flexDirection: "row", marginTop: 20 }}>
             {skillIcons.map((skillIcon) => (
               <img key={skillIcon} src={skillIcon} width="64" height="64" />
             ))}
           </div>
-            */}
         </div>
       </div>
     ),
