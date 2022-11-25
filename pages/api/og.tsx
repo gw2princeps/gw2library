@@ -245,6 +245,7 @@ export default async function handler(req: NextRequest) {
               marginLeft: 150,
             }}
           >
+            {/* @ts-ignore */}
             {traitsIcons.map(({ name, icon }, index) => (
               <div
                 style={{
