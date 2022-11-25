@@ -54,7 +54,6 @@ export default function Page({
   const [mdxModule, setMdxModule] = useState();
   const router = useRouter();
   const { buildid } = router.query;
-  console.log(buildid);
 
   const hasDescription = mdx === undefined || mdx?.length > 0;
   const loading = !mdxModule && hasDescription;
@@ -83,10 +82,15 @@ export default function Page({
   return (
     <APILanguageProvider value="en">
       <Head>
+        <meta property="og:title" content="Embeds" key={name} />
+        <meta property="og:site_name" content="GW2Library" />
+        <meta property="og:description" content="" />
         <meta
           property="og:image"
           content={`${process.env.NEXT_PUBLIC_URL}/api/og?buildid=${buildid}`}
         />
+        <meta name="theme-color" content="#55bbee" />
+        <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <section className={`buildsection ${classes.root}`}>
         <BuildHeader specialization={spec} timestamp={timestamp} name={name} />

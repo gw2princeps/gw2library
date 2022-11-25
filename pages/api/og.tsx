@@ -109,12 +109,11 @@ export default async function handler(req: NextRequest) {
         const skillJson = await data.json();
         return skillJson[0].icon;
       } else {
-        return ""; //"https://cdn.discordapp.com/attachments/982361187704533002/1045495439786520596/Empty.png";
+        return "https://gw2library.princeps.biz/empty.png";
       }
     })
   );
 
-  console.log(skillIcons);
   const fontData = await font;
 
   return new ImageResponse(
