@@ -207,7 +207,9 @@ export default async function handler(req: NextRequest) {
             style={{ display: "flex", flexDirection: "column", marginTop: 20 }}
           >
             {skillIcons.map((skillIcon) => (
-              <div style={{ fontSize: 12 }}>{skillIcon}</div>
+              <div key={skillIcon} style={{ fontSize: 12 }}>
+                {skillIcon}
+              </div>
             ))}
           </div>
         </div>
