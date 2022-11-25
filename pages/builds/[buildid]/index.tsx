@@ -82,7 +82,7 @@ export default function Page({
   return (
     <APILanguageProvider value="en">
       <Head>
-        <meta property="og:title" content="Embeds" key={name} />
+        <meta property="og:title" content={name} />
         <meta property="og:site_name" content="GW2Library" />
         <meta property="og:description" content="" />
         <meta
