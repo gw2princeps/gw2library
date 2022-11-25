@@ -31,7 +31,7 @@ export const validateCharacter = (character: string) => {
 export const validateGw2SkillsLink = (link: string) => {
   if (link.length == 0) return true;
   // http://en.gw2skills.net/editor/?PWFBk2l7lFwuYUsE2Ie2TrtPA-zRRYjhpG94zIVpQ6qA7OL9ftBA-e
-  return link.includes(".gw2skills.net/editor/?");
+  return link.includes("gw2skills.net/editor/?");
 };
 
 const DynamicPreview = dynamic(() => import("./editor/Preview"), {
