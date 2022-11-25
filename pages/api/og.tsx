@@ -203,9 +203,11 @@ export default async function handler(req: NextRequest) {
 
           {buildJson.name}
 
-          <div style={{ display: "flex", flexDirection: "row", marginTop: 20 }}>
+          <div
+            style={{ display: "flex", flexDirection: "column", marginTop: 20 }}
+          >
             {skillIcons.map((skillIcon) => (
-              <img key={skillIcon} src={skillIcon} width="64" height="64" />
+              <div style={{ fontSize: 12 }}>{skillIcon}</div>
             ))}
           </div>
         </div>
