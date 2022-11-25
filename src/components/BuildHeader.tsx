@@ -22,13 +22,12 @@ const BuildHeader = ({
 
   return (
     <div className={classes.root}>
-      {specialization ? (
-        <H1>
-          <>
-            <Profession name={specialization} disableText /> {name}
-          </>
-        </H1>
-      ) : undefined}
+      <H1>
+        {specialization ? (
+          <Profession name={specialization} disableText />
+        ) : undefined}{" "}
+        {name}
+      </H1>
 
       <Tag round minimal>
         {localeTimestamp}

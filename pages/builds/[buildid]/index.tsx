@@ -82,9 +82,8 @@ export default function Page({
   return (
     <APILanguageProvider value="en">
       <Head>
-        <meta property="og:title" content={name} />
+        <meta property="og:title" content={name} key="title" />
         <meta property="og:site_name" content="GW2Library" />
-        <meta property="og:description" content="" />
         <meta
           property="og:image"
           content={`${process.env.NEXT_PUBLIC_URL}/api/og?buildid=${buildid}`}

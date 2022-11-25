@@ -3,7 +3,6 @@ import React from "react";
 import classes from "@/styles/TopBar.module.css";
 import Image from "next/image";
 import discretizeLogo from "src/assets/icons/discretize.png";
-import Link from "next/link";
 import { AppToaster } from "src/utils/toaster";
 
 const TopBar = ({
@@ -59,7 +58,7 @@ const TopBar = ({
         icon={copied ? "tick" : "clipboard"}
         onClick={onClick}
       >
-        Chat Code - <code className={classes.chatcode}>{chatcode}</code>
+        Chat Code <code className={classes.chatcode}>{chatcode}</code>
       </Button>
     </ButtonGroup>
   );

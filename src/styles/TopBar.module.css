@@ -1,10 +1,24 @@
 .buttongroup {
   margin-bottom: 1rem;
+  flex-direction: row;
+}
+
+@media screen and (max-width: 530px) {
+  .buttongroup {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .chatcode {
+    display: none;
+  }
 }
 
 .optimizerButton {
   display: flex;
   margin: 0 1rem;
+  white-space: nowrap;
 }
 
 .discretizeLogo {
