@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 import { ImageResponse } from "@vercel/og";
@@ -100,6 +101,7 @@ export default async function handler(req: NextRequest) {
     buildJson.character.skills?.utility3Id,
     buildJson.character.skills?.eliteId,
   ];
+
   const skillIcons = await Promise.all(
     skills.map(async (skill) => {
       if (skill) {
@@ -113,6 +115,21 @@ export default async function handler(req: NextRequest) {
       }
     })
   );
+
+  const traitLineIds = [...buildJson.character.traits.lines];
+  const traitLineData = await (
+    await fetch(
+      `${process.env.GW2API_URL}/v2/specializations?ids=${traitLineIds.join(
+        ","
+      )}`
+    )
+  ).json();
+  const traits = [...buildJson.character.traits.selection];
+  const traitsIcons = await (
+    await fetch(
+      `${process.env.GW2API_URL}/v2/traits?ids=${traits.flat(1).join(",")}`
+    )
+  ).json();
 
   const fontData = await font;
 
@@ -140,6 +157,7 @@ export default async function handler(req: NextRequest) {
             alignItems: "center",
             fontSize: 30,
             color: "whitesmoke",
+            marginBottom: 20,
           }}
         >
           <svg
@@ -176,38 +194,88 @@ export default async function handler(req: NextRequest) {
           </svg>
 
           <p>GW2Library</p>
+
+          <span style={{ marginLeft: 200, fontSize: 60 }}>
+            <u>{buildJson.name}</u>
+          </span>
         </div>
 
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
+            flexDirection: "row",
             alignItems: "center",
-            width: "100%",
+            fontSize: 30,
+            color: "whitesmoke",
+            marginLeft: 150,
           }}
         >
-          <img
-            width="256"
-            height="256"
-            src={
-              specializationImages[
-                buildJson.character.attributes.specialization.toLowerCase()
-              ]
-            }
+          <div
             style={{
-              borderRadius: 128,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
             }}
-          />
+          >
+            <img
+              width="256"
+              height="256"
+              src={
+                specializationImages[
+                  buildJson.character.attributes.specialization.toLowerCase()
+                ]
+              }
+            />
+            <div
+              style={{ display: "flex", flexDirection: "row", marginTop: 20 }}
+            >
+              {skillIcons
+                .filter((i) => i)
+                .map((skillIcon) => (
+                  <img key={skillIcon} src={skillIcon} width="64" height="64" />
+                ))}
+            </div>
+          </div>
 
-          {buildJson.name}
-
-          <div style={{ display: "flex", flexDirection: "row", marginTop: 20 }}>
-            {skillIcons
-              .filter((i) => i)
-              .map((skillIcon) => (
-                <img key={skillIcon} src={skillIcon} width="64" height="64" />
-              ))}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              marginLeft: 150,
+            }}
+          >
+            {traitsIcons.map(({ name, icon }, index) => (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  ...(index % 3 === 2 ? { marginBottom: 20 } : {}),
+                }}
+              >
+                {index % 3 === 0 && (
+                  <span
+                    style={{
+                      display: "flex",
+                      marginRight: 20,
+                      marginBottom: 10,
+                    }}
+                  >
+                    {traitLineData[index / 3].name}
+                  </span>
+                )}
+                <span style={{ display: "flex", fontSize: 25 }}>
+                  <img
+                    key={name}
+                    src={icon}
+                    width="32"
+                    height="32"
+                    style={{ marginRight: "1rem" }}
+                  />{" "}
+                  {name}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
