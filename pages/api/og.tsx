@@ -3,7 +3,6 @@
 import { ImageResponse } from "@vercel/og";
 import { NextRequest } from "next/server";
 import { Build } from "src/types/Build";
-import logo from "public/logo.svg";
 
 export const config = {
   runtime: "experimental-edge",
@@ -189,6 +188,9 @@ export default async function handler(req: NextRequest) {
             width: "100%",
           }}
         >
+          {buildJson.name}
+
+          {/*}
           <img
             width="256"
             height="256"
@@ -203,12 +205,13 @@ export default async function handler(req: NextRequest) {
           />
 
           {buildJson.name}
-
+         
           <div style={{ display: "flex", flexDirection: "row", marginTop: 20 }}>
             {skillIcons.map((skillIcon) => (
               <img key={skillIcon} src={skillIcon} width="64" height="64" />
             ))}
           </div>
+            */}
         </div>
       </div>
     ),
