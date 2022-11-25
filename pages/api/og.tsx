@@ -186,9 +186,9 @@ export default async function handler(req: NextRequest) {
   const professionImage = getProfessionImage(
     buildJson.character.attributes.specialization
   );
+  // @ts-ignore
   const imageSrc = professionImage.props.children.props.src.src;
-  console.log(JSON.stringify(professionImage));
-  console.log(imageSrc);
+
   return new ImageResponse(
     (
       <div
