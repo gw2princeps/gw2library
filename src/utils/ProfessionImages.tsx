@@ -301,3 +301,5 @@ const images: Record<ProfessionType, React.ReactNode> = {
 
 const getImage = (name: ProfessionType) => images[name] || GuardianImage;
 export default getImage;
+
+export { warrior };

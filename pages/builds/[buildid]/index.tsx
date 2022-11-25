@@ -17,6 +17,8 @@ import "@discretize/gw2-ui-new/dist/default_style.css";
 import "@discretize/gw2-ui-new/dist/index.css";
 import "@discretize/react-discretize-components/dist/index.css";
 import "@discretize/typeface-menomonia";
+import Head from "next/head";
+import { useRouter } from "next/router";
 
 // For some reason the edge runtime does not allow a top level import for the run function in dev mode only... production works fine with the imported version
 let run: () => Promise<
@@ -50,6 +52,9 @@ export default function Page({
   gw2skillsLink,
 }: Build & BuildPageProps) {
   const [mdxModule, setMdxModule] = useState();
+  const router = useRouter();
+  const { buildid } = router.query;
+  console.log(buildid);
 
   const hasDescription = mdx === undefined || mdx?.length > 0;
   const loading = !mdxModule && hasDescription;
@@ -77,6 +82,12 @@ export default function Page({
 
   return (
     <APILanguageProvider value="en">
+      <Head>
+        <meta
+          property="og:image"
+          content={`${process.env.NEXT_PUBLIC_URL}/api/og?buildid=${buildid}`}
+        />
+      </Head>
       <section className={`buildsection ${classes.root}`}>
         <BuildHeader specialization={spec} timestamp={timestamp} name={name} />
         <TopBar
