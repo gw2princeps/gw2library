@@ -104,10 +104,10 @@ export default async function handler(req: NextRequest) {
     skills.map(async (skill) => {
       if (skill) {
         const data = await fetch(
-          `https://api.guildwars2.com/v2/skills/${skill}`
+          `${process.env.GW2API_URL}/v2/skills?ids=${skill}`
         );
         const skillJson = await data.json();
-        return skillJson.icon;
+        return skillJson[0].icon;
       } else {
         return "https://cdn.discordapp.com/attachments/982361187704533002/1045495439786520596/Empty.png";
       }
@@ -203,14 +203,12 @@ export default async function handler(req: NextRequest) {
 
           {buildJson.name}
 
-          <div
-            style={{ display: "flex", flexDirection: "column", marginTop: 20 }}
-          >
-            {skillIcons.map((skillIcon) => (
-              <div key={skillIcon} style={{ fontSize: 12 }}>
-                {skillIcon}
-              </div>
-            ))}
+          <div style={{ display: "flex", flexDirection: "row", marginTop: 20 }}>
+            {skillIcons
+              .filter((i) => i)
+              .map((skillIcon) => (
+                <img key={skillIcon} src={skillIcon} width="64" height="64" />
+              ))}
           </div>
         </div>
       </div>
