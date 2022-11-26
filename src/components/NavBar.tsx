@@ -14,6 +14,7 @@ import Link from "next/link";
 import LoginButton from "@/components/LoginButton";
 import { useSession } from "next-auth/react";
 import AccountButton from "./AccountButton";
+import { Tooltip2 } from "@blueprintjs/popover2";
 
 const NavBar = function NavBar({ headline }: { headline: string }) {
   const [icon, setIcon] = React.useState<IconName>("moon");
@@ -43,7 +44,12 @@ const NavBar = function NavBar({ headline }: { headline: string }) {
         </NavbarGroup>
       )}
       <NavbarGroup align={Alignment.RIGHT}>
-        <Button minimal={true} icon={icon} large onClick={() => toggle()} />
+        <Tooltip2
+          content={`Switch to ${isDarkMode ? "light" : "dark"} mode`}
+          placement="bottom"
+        >
+          <Button minimal={true} icon={icon} large onClick={() => toggle()} />
+        </Tooltip2>
 
         <NavbarDivider />
         <LoginButton />

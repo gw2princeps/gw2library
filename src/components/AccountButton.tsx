@@ -19,7 +19,7 @@ const AccountButton = () => {
         interactionKind="click"
         content={
           <>
-            <Menu className={classes.menu}>
+            <Menu className={classes.menu} large>
               <Link href="/account/list" className={classes.link}>
                 <MenuItem text="My builds" />
               </Link>

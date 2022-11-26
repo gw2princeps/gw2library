@@ -1,9 +1,11 @@
 import { Button, Classes, HTMLTable, NonIdealState } from "@blueprintjs/core";
+import { Tooltip2 } from "@blueprintjs/popover2";
 import { Profession, Skill, Specialization } from "@discretize/gw2-ui-new";
 import { NoSelection } from "@discretize/react-discretize-components";
 import Link from "next/link";
 import React from "react";
 import { Build } from "src/types/Build";
+import { copyToClipboard } from "src/utils/copyToClipboard";
 import useSWR from "swr";
 import SettingsMenu from "../settingsMenu/SettingsMenu";
 import classes from "./Table.module.css";
@@ -93,6 +95,17 @@ const Table = () => {
             </td>
             <td>{new Date(build.timestamp).toLocaleString()}</td>
             <td>
+              <Tooltip2 content="Copy link to clipboard">
+                <Button
+                  icon="share"
+                  minimal
+                  onClick={() =>
+                    copyToClipboard(
+                      `${process.env.NEXT_PUBLIC_URL}/builds/${build.id}`
+                    )
+                  }
+                />
+              </Tooltip2>
               <SettingsMenu id={build.id} data={data} />
             </td>
           </tr>

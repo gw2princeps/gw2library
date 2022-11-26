@@ -2,6 +2,7 @@ import { Button, Menu, MenuDivider, MenuItem } from "@blueprintjs/core";
 import { Popover2 } from "@blueprintjs/popover2";
 import Link from "next/link";
 import React from "react";
+import { copyToClipboard } from "src/utils/copyToClipboard";
 import { useSWRConfig } from "swr";
 import { TabledBuild } from "../table/Table";
 import classes from "./SettingsMenu.module.css";
@@ -35,6 +36,13 @@ const SettingsMenu = ({ id, data }: { id: string; data: TabledBuild[] }) => {
             <Link href={`/builds/edit/${id}`}>
               <MenuItem text="Edit" icon="edit" />
             </Link>
+            <MenuItem
+              icon="share"
+              text="Share"
+              onClick={() =>
+                copyToClipboard(`${process.env.NEXT_PUBLIC_URL}/builds/${id}`)
+              }
+            />
             <MenuDivider />
 
             <MenuItem

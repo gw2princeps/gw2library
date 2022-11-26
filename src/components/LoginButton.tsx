@@ -1,6 +1,5 @@
 import { Button, Classes } from "@blueprintjs/core";
-import { useSession, signIn, signOut } from "next-auth/react";
-import { ReactPropTypes } from "react";
+import { signIn, useSession } from "next-auth/react";
 
 export default function Component(props: Record<string, any>): JSX.Element {
   const { data } = useSession();
@@ -11,7 +10,13 @@ export default function Component(props: Record<string, any>): JSX.Element {
     <>
       <Button
         className={Classes.MINIMAL}
-        onClick={() => signIn("gw2auth")}
+        onClick={() => {
+          if (process.env.NODE_ENV === "production") {
+            return signIn("gw2auth");
+          } else {
+            return signIn();
+          }
+        }}
         icon="log-in"
         text="Login"
         {...props}

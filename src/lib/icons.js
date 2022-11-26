@@ -15,6 +15,7 @@ import {
   Edit,
   Delete,
   EyeOpen,
+  Share,
 } from "@blueprintjs/icons/lib/esm/generated/16px/paths";
 import {
   Home as Home20,
@@ -47,6 +48,7 @@ export const IconSvgPaths16 = {
   Edit,
   Delete,
   EyeOpen,
+  Share,
 };
 
 export const IconSvgPaths20 = {
