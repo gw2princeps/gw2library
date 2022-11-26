@@ -47,7 +47,7 @@ export default function Layout({
             <title>GW2 Library</title>
             <meta
               name="description"
-              content="Create, and share builds with descriptions in seconds"
+              content="Create and share builds with descriptions and previews in seconds"
             />
             <meta
               name="keywords"
@@ -56,7 +56,6 @@ export default function Layout({
             <meta name="author" content="princeps" />
             <meta property="og:type" content="website" />
             <meta property="og:url" content="https://gw2library.com/" />
-            <meta property="og:title" content="GW2 Library" />
             <meta
               property="og:description"
               content="Create, and share builds with descriptions in seconds"

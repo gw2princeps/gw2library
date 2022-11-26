@@ -212,7 +212,7 @@ export default async function handler(req: NextRequest) {
           style={{
             position: "absolute",
             right: 20,
-            top: 20,
+            bottom: 20,
             fontSize: 30,
             alignItems: "center",
             color: "whitesmoke",
@@ -247,7 +247,7 @@ export default async function handler(req: NextRequest) {
               }
               style={{ marginRight: 20 }}
             />
-            <u>{buildJson.name}</u>
+            <u style={{ whiteSpace: "nowrap" }}>{buildJson.name}</u>
           </span>
         </div>
 
