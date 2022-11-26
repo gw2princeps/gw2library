@@ -118,7 +118,9 @@ export default function Page({
 
             <div
               className={
-                loading ? `${Classes.SKELETON} ${classes.loadingMdxText}` : ""
+                loading
+                  ? `${Classes.SKELETON} ${classes.loadingMdxText}`
+                  : `${Classes.RUNNING_TEXT} ${Classes.TEXT_LARGE}`
               }
             >
               <MDXProvider components={components}>
