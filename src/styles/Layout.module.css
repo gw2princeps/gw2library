@@ -1,5 +1,6 @@
 .main {
   min-height: calc(100vh - 50px - 24px);
+  position: relative;
 }
 
 .layout {

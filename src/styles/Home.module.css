@@ -19,14 +19,43 @@
 }
 
 .wrapper {
+}
+
+.mb10 {
+  margin-bottom: 10rem;
+}
+
+.page {
+  min-height: 100vh;
+}
+
+.firstPage {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  min-height: calc(100vh - 58px);
+  height: calc(100vh - 58px);
+  background: radial-gradient(
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0) 70%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  color: #f6f7f9;
 }
 
-.mb10 {
-  margin-bottom: 10rem;
+.image {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  object-fit: contain;
+}
+
+.bgImage {
+  position: absolute !important;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-bottom: 2px solid #1e2124;
 }

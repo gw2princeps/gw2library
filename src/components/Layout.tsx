@@ -11,11 +11,13 @@ export default function Layout({
   widescreen = false,
   hideFooter = false,
   currentPageHeadline = "",
+  BackgroundImage = undefined,
 }: {
   children: React.ReactNode;
   widescreen?: boolean;
   hideFooter?: boolean;
   currentPageHeadline?: string;
+  BackgroundImage?: JSX.Element;
 }) {
   const { isDarkMode } = useDarkMode(true);
   const isClient = useIsClient();
@@ -37,32 +39,35 @@ export default function Layout({
 
   return (
     <div className={rootClasses}>
+      <Head>
+        <title>GW2 Library</title>
+        <meta
+          name="description"
+          content="Create and share builds with descriptions and previews in seconds"
+        />
+        <meta
+          name="keywords"
+          content="gw2, guild wars 2, build, builds, library, gw2library, gw2library.com fractals raids open world low intensity"
+        />
+        <meta name="author" content="princeps" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://gw2library.com/" />
+        <meta
+          property="og:description"
+          content="Create, and share builds with descriptions in seconds"
+        />
+
+        <link rel="icon" href="/logo.svg" />
+      </Head>
+
       <div className={classes.wrapper}>
+        {BackgroundImage ? BackgroundImage : undefined}
+
         <div
           className={`${classes.layout} ${
             widescreen ? classes.widescreen : ""
           } `}
         >
-          <Head>
-            <title>GW2 Library</title>
-            <meta
-              name="description"
-              content="Create and share builds with descriptions and previews in seconds"
-            />
-            <meta
-              name="keywords"
-              content="gw2, guild wars 2, build, builds, library, gw2library, gw2library.com fractals raids open world low intensity"
-            />
-            <meta name="author" content="princeps" />
-            <meta property="og:type" content="website" />
-            <meta property="og:url" content="https://gw2library.com/" />
-            <meta
-              property="og:description"
-              content="Create, and share builds with descriptions in seconds"
-            />
-
-            <link rel="icon" href="/logo.svg" />
-          </Head>
           <Navbar headline={currentPageHeadline} />
           <main className={classes.main}>{children}</main>
 
