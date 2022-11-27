@@ -41,7 +41,8 @@ export const authOptions = {
           // the payload of the access_token contains useful information
           // https://github.com/gw2auth/oauth2-server/wiki#reading-the-gw2-api-subtokens-out-of-the-access-token
           const profile = JSON.parse(atob(token.split(".")[1]));
-          return { id: profile.sub, profile };
+          const accId = Object.keys(profile)[0];
+          return { id: accId, profile };
         },
       },
 
@@ -79,7 +80,7 @@ export const authOptions = {
               profile: {
                 sub: "admin",
                 "gw2:tokens": {
-                  mockaccid: {
+                  admin: {
                     name: "Admin",
                   },
                 },
@@ -105,9 +106,9 @@ export const authOptions = {
       }
 
       const profile = token.profile;
-      const { name } =
-        profile["gw2:tokens"][Object.keys(profile["gw2:tokens"])[0]];
-      return { ...session, user: { ...user, sub: profile.sub, name } };
+      const accId = Object.keys(profile["gw2:tokens"])[0];
+      const { name } = profile["gw2:tokens"][accId];
+      return { ...session, user: { ...user, sub: accId, name } };
     },
     async jwt({ token, user, account, profile, isNewUser }) {
       // this is called after profile
